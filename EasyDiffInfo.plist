@@ -1,0 +1,12 @@
+{
+    ApplicationDescription = "A graphical GNUstep diff utility";
+    ApplicationIcon = "";
+    ApplicationName = EasyDiff;
+    ApplicationRelease = 0.3.0;
+    Authors = ("Pierre-Yves Rivaille");
+    Copyright = "Copyright (C) 2002 by Pierre-Yves Rivaille";
+    CopyrightDescription = "Released under the GNU General Public License 2.0";
+    FullVersionID = 0.3.0;
+    NOTE = "Automatically generated!";
+    URL = "";
+}
