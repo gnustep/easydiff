@@ -450,7 +450,9 @@
 {
   NSArray *flr;
   NSArray *tlr;
-    
+  NSString *fstr;
+  NSString *tstr;
+  
   NSMutableArray *patchArray = [[NSMutableArray alloc] 
 				 initWithCapacity:
 				   ([leftChanges count] / 2) + 1];
@@ -472,6 +474,8 @@
     {
       flr = [diffWrapper leftLineRanges];
       tlr = [diffWrapper rightLineRanges];
+      fstr = [diffWrapper leftString];
+      tstr = [diffWrapper rightString];
       fromChanges = leftChanges;
       toChanges = rightChanges;
     }
@@ -479,6 +483,8 @@
     {
       flr = [diffWrapper rightLineRanges];
       tlr = [diffWrapper leftLineRanges];
+      fstr = [diffWrapper rightString];
+      tstr = [diffWrapper leftString];
       fromChanges = rightChanges;
       toChanges = leftChanges;
     }
@@ -505,7 +511,7 @@
 	  for (j = p->start; j < p->end; j++ )
 	    {
 	      [p->patchString appendString: @"-"];
-	      [p->patchString appendString:[[diffWrapper leftString] 
+	      [p->patchString appendString:[fstr 
 					     substringWithRange: 
 					       NSMakeRange
 					     ([[flr objectAtIndex: j] intValue] + 1,
@@ -515,7 +521,7 @@
 	  for (j = toStart; j < toEnd; j++ )
 	    {
 	      [p->patchString appendString: @"+"];
-	      [p->patchString appendString:[[diffWrapper rightString] 
+	      [p->patchString appendString:[tstr
 					     substringWithRange: 
 					       NSMakeRange
 					     ([[tlr objectAtIndex: j] intValue] + 1,
@@ -539,7 +545,7 @@
 	  for (j = p->start; j < p->end; j++ )
 	    {
 	      [p->patchString appendString: @"-"];
-	      [p->patchString appendString:[[diffWrapper leftString] 
+	      [p->patchString appendString:[fstr 
 					     substringWithRange: 
 					       NSMakeRange
 					     ([[flr objectAtIndex: j] intValue] + 1,
@@ -578,7 +584,7 @@
 	      for ( k = pp->end; k < j; k++ )
 		{
 		  [stringToInsert appendString: @" "];
-		  [stringToInsert appendString: [[diffWrapper leftString] 
+		  [stringToInsert appendString: [fstr 
 						  substringWithRange: 
 						    NSMakeRange
 						  ([[flr objectAtIndex: k] intValue] + 1,
@@ -603,7 +609,7 @@
 	  for ( k = j; k < p->start; k++ )
 	    {
 	      [stringToInsert appendString: @" "];
-	      [stringToInsert appendString: [[diffWrapper leftString] 
+	      [stringToInsert appendString: [fstr 
 					     substringWithRange: 
 					       NSMakeRange
 					     ([[flr objectAtIndex: k] intValue] + 1,
@@ -624,7 +630,7 @@
 	  for ( k = pp->end; k < p->start; k++ )
 	    {
 	      [stringToInsert appendString: @" "];
-	      [stringToInsert appendString: [[diffWrapper leftString] 
+	      [stringToInsert appendString: [fstr 
 					     substringWithRange: 
 					       NSMakeRange
 					     ([[flr objectAtIndex: k] intValue] + 1,
@@ -649,7 +655,7 @@
       for ( k = pp->end; k < j; k++ )
 	{
 	  [stringToInsert appendString: @" "];
-	  [stringToInsert appendString: [[diffWrapper leftString] 
+	  [stringToInsert appendString: [fstr 
 					  substringWithRange: 
 					    NSMakeRange
 					  ([[flr objectAtIndex: k] intValue] + 1,

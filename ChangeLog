@@ -1,3 +1,7 @@
+2002-06-23  Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+
+	* fix for patch creation. (patch from right to left would not work)
+	
 2002-06-12  Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
 
 	* gcc 2.95 fix
