@@ -664,9 +664,8 @@
 
 
   {
-    NSMutableString *patchFileString;
-
-    patchFileString = (NSMutableString*)[NSMutableString string];
+    NSMutableString *patchFileString =
+      (NSMutableString*)[NSMutableString string];
 
     int d = 0;
     for ( i = 0; i < [finalArray count]; i++ )
