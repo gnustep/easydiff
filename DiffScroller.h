@@ -1,4 +1,7 @@
-#import <AppKit/AppKit.h>
+#ifndef __DIFFSCROLLER_H
+#define __DIFFSCROLLER_H
+
+#include <AppKit/AppKit.h>
 
 @interface DiffScroller : NSScroller
 {
@@ -9,3 +12,6 @@
   
 }
 @end
+
+#endif
+

@@ -21,8 +21,10 @@
  *
  */
 
+#ifndef __APPCONTROLLER_H
+#define __APPCONTROLLER_H
 
-#import <AppKit/AppKit.h>
+#include <AppKit/AppKit.h>
 
 @interface AppController : NSObject
 {
@@ -31,10 +33,5 @@
 //- (void) awakeFromNib;
 @end
 
-
-
-
-
-
-
+#endif
 

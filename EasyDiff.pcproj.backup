@@ -1,6 +1,6 @@
 {
     APPCLASS = NSApplication;
-    APPKIT = GNUSTEP-GUI;
+    APPKIT = "GNUSTEP-GUI";
     APPLICATIONICON = "";
     BUILDTOOL = "/usr/bin/make";
     CLASS_FILES = (
@@ -10,13 +10,14 @@
 	DiffMiddleView.m,
 	DiffView.m,
 	DiffWrapper.m,
-	DiffWindowController.m
+	DiffWindowController.m,
+	DiffScroller.m
     );
     COMPILEROPTIONS = "";
     CREATION_DATE = "";
     DOCU_FILES = (
     );
-    FOUNDATION = GNUSTEP-BASE;
+    FOUNDATION = "GNUSTEP-BASE";
     FRAMEWORKS = (
     );
     HEADER_FILES = (
@@ -30,17 +31,17 @@
     );
     INSTALLDIR = "$(GNUSTEP_LOCAL_ROOT)/";
     INTERFACES = (
-	EasyDiff.gorm,
-	DiffWindow.gorm
+	main.gorm,
+	window.gorm
     );
     LANGUAGE = English;
     LAST_EDITING = "";
     LIBRARIES = (
-	gnustep-base,
-	gnustep-gui
+	"gnustep-base",
+	"gnustep-gui"
     );
     LINKEROPTIONS = "";
-    MAININTERFACE = EasyDiff.gorm;
+    MAININTERFACE = main.gorm;
     MAKEFILEDIR = "$(GNUSTEP_SYSTEM_ROOT)/Makefiles";
     OTHER_FILES = (
     );

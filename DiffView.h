@@ -21,11 +21,14 @@
  *
  */
 
-#import <AppKit/AppKit.h>
-#import "DiffView.h"
-#import "DiffTextView.h"
-#import "DiffMiddleView.h"
-#import "DiffScroller.h"
+#ifndef __DIFFVIEW_H
+#define __DIFFVIEW_H
+
+#include <AppKit/AppKit.h>
+#include "DiffView.h"
+#include "DiffTextView.h"
+#include "DiffMiddleView.h"
+#include "DiffScroller.h"
 
 @interface DiffView: NSView
 {
@@ -34,7 +37,7 @@
   DiffTextView *leftTextView;
   DiffTextView *rightTextView;
   DiffMiddleView *middleView;
-  BOOL _scrolling;
+
   float mergeFileHeight;
   NSMutableArray *leftScrollingPoint;
   NSMutableArray *rightScrollingPoint;
@@ -43,6 +46,8 @@
   float *lSP;
   float *rSP;
   float *mSP;
+
+  BOOL _scrolling;
 }
 
 - (void) tile;
@@ -69,4 +74,5 @@
 - (DiffMiddleView *) middleView;
 @end
 
+#endif
 

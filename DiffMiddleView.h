@@ -21,8 +21,11 @@
  *
  */
 
-#import <AppKit/AppKit.h>
-#import "DiffTextView.h"
+#ifndef __DIFFMIDDLEVIEW_H
+#define __DIFFMIDDLEVIEW_H
+
+#include <AppKit/AppKit.h>
+#include "DiffTextView.h"
 
 @interface DiffMiddleView : NSView
 {
@@ -51,3 +54,6 @@
 
 - (NSArray*) matrixArray;
 @end
+
+#endif
+

@@ -22,9 +22,8 @@
  */
 
 
-//#import <AppKit/AppKit.h>
-
-#import "DiffWrapper.h"
+//#include <AppKit/AppKit.h>
+#include "DiffWrapper.h"
 
 void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2);
 

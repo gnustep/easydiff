@@ -21,7 +21,10 @@
  *
  */
 
-#import <AppKit/AppKit.h>
+#ifndef __DIFFWINDOWCONTROLLER_H
+#define __DIFFWINDOWCONTROLLER_H
+
+#include <AppKit/AppKit.h>
 
 @class DiffWrapper;
 
@@ -43,3 +46,6 @@
 - (id) initWithFilename: (NSString *) filename1
 	andTempFilename: (NSString *) filename2;
 @end
+
+#endif
+

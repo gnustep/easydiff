@@ -1,4 +1,4 @@
-#import "DiffScroller.h"
+#include "DiffScroller.h"
 #include <math.h>
 
 @implementation DiffScroller

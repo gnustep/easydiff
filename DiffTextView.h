@@ -25,7 +25,7 @@
 #ifndef _DIFFTEXTVIEW_H_
 #define _DIFFTEXTVIEW_H_
 
-#import <AppKit/AppKit.h>
+#include <AppKit/AppKit.h>
 
 @interface DiffTextView : NSTextView
 {

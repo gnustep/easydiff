@@ -21,8 +21,8 @@
  *
  */
 
-#import <AppKit/AppKit.h>
-#import "DiffView.h"
+#include <AppKit/AppKit.h>
+#include "DiffView.h"
 #include <math.h>
 
 
@@ -48,8 +48,7 @@
   [super initWithFrame: aRect];
 
 
-  middleView = [[DiffMiddleView alloc]
-		 initWithFrame:NSZeroRect];
+  middleView = [[DiffMiddleView alloc] initWithFrame:NSZeroRect];
 
   {
     leftView = [[DiffScrollView alloc] 
@@ -137,6 +136,7 @@
   [self addSubview: middleView];
   [self addSubview: rightView];
   [self addSubview: leftView];
+
   RELEASE(middleView);
   RELEASE(rightView);
   RELEASE(leftView);

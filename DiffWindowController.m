@@ -21,12 +21,12 @@
  *
  */
 
-#import <AppKit/AppKit.h>
-//#import "DiffTextView.h"
-//#import "DiffMiddleView.h"
-#import "DiffView.h"
-#import "DiffWindowController.h"
-#import "DiffWrapper.h"
+#include <AppKit/AppKit.h>
+//#include "DiffTextView.h"
+//#include "DiffMiddleView.h"
+#include "DiffView.h"
+#include "DiffWindowController.h"
+#include "DiffWrapper.h"
 
 //extern void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2);
 
@@ -116,7 +116,7 @@
 - (id) _initWithFilename: (NSString *) filename1
 	     andFilename: (NSString *) filename2
 {
-  [self initWithWindowNibName: @"DiffWindow"];
+  [self initWithWindowNibName: @"window"];
 
   [self window];
 

@@ -21,7 +21,10 @@
  *
  */
 
-#import <Foundation/Foundation.h>
+#ifndef __DIFFWRAPPER_H
+#define __DIFFWRAPPER_H
+
+#include <Foundation/Foundation.h>
 
 @interface DiffWrapper : NSObject
 {
@@ -51,4 +54,6 @@
 - (NSArray *) leftLineRanges;
 - (NSArray *) rightLineRanges;
 @end
+
+#endif
 
