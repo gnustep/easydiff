@@ -12,7 +12,8 @@
 
   [super drawRect: aRect];
 
-  [[NSColor lightGrayColor] set];
+  //[[NSColor lightGrayColor] set];
+  [[NSColor colorWithDeviceRed:0.7 green:0.7 blue:1. alpha:0.1] set];
 
   rect.size.width = knobSlotRect.size.width;
   rect.origin.x = knobSlotRect.origin.x;
@@ -25,7 +26,6 @@
 
   for (i = 1; i < length - 2; i += 2)
     {
-      //      NSLog(@"%f/%f", position[i+1], height);
       rect.origin.y = 
 	floor((position[i] * knobSlotRect.size.height) / height);
 

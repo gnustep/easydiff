@@ -104,7 +104,6 @@
   NSLayoutManager *lm = [self layoutManager];
   NSTextContainer *tc = [self textContainer];
 
-
   array = changes;
 
   count = [array count];
@@ -177,12 +176,39 @@
 
 	//	NSLog(@"a=%d b=%d", a, b);
 
-	if (a > b)
+        if (a == [internalString length])
+          {
+	    blockRectsArray[blockRectsArrayFirstFree++] =
+	      [lm boundingRectForGlyphRange:
+		    [lm glyphRangeForCharacterRange:
+			  NSMakeRange(a-1, 1)
+			actualCharacterRange:NULL]
+		  inTextContainer:tc];
+	    blockRectsArray[blockRectsArrayFirstFree - 1].origin.y =
+              NSMaxY(blockRectsArray[blockRectsArrayFirstFree - 1]);
+	    blockRectsArray[blockRectsArrayFirstFree - 1].size.height = 0;
+
+	    separationPosition[i + 1] = 
+	      NSMinY(blockRectsArray[blockRectsArrayFirstFree - 1]);
+
+	    separationPosition[i + 2] = 
+	      NSMinY(blockRectsArray[blockRectsArrayFirstFree - 1]);
+
+	    separationDiff[i] = separationPosition[i+1] -
+	      separationPosition[i];
+
+	    separationDiff[i+1] = separationPosition[i+2] -
+	      separationPosition[i+1];
+
+	    blockRectsArray[blockRectsArrayFirstFree - 1].size.height = 2;
+	    blockRectsArray[blockRectsArrayFirstFree - 1].origin.y--;
+          }
+	else if (a >= b)
 	  {
 	    blockRectsArray[blockRectsArrayFirstFree++] =
 	      [lm boundingRectForGlyphRange:
 		    [lm glyphRangeForCharacterRange:
-			  NSMakeRange(a, a)
+			  NSMakeRange(a, 1)
 			actualCharacterRange:NULL]
 		  inTextContainer:tc];
 
@@ -202,8 +228,7 @@
 	      separationPosition[i+1];
 
 
-	    blockRectsArray[blockRectsArrayFirstFree - 1].size.height =
-	      2;
+	    blockRectsArray[blockRectsArrayFirstFree - 1].size.height = 2;
 	    blockRectsArray[blockRectsArrayFirstFree - 1].origin.y--;
 	  }
 	else
@@ -238,7 +263,7 @@
 
       }
 
-    separationPosition[count + 1] = [self bounds].size.height;
+    separationPosition[count + 1] = NSMaxY([self bounds]);
     separationDiff[count] = separationPosition[count + 1] - 
       separationPosition[count];
 
@@ -367,77 +392,58 @@
 
 - (void) drawRect: (NSRect) aRect
 {
-  int length;
-  NSString *string;
   NSRange glyphRange, characterRange;
-    
-  //  NSLog(@"%@", NSStringFromRect(aRect));
-  NSRange range;
+  NSLayoutManager *lm = [self layoutManager];
+  NSTextContainer *tc = [self textContainer];
 
-  {
-    NSLayoutManager *lm = [self layoutManager];
-    NSTextContainer *tc = [self textContainer];
+  [[NSColor whiteColor] set];
+  NSRectFill(aRect);
 
-    glyphRange = [lm glyphRangeForBoundingRect:aRect
-		     inTextContainer: tc];
-    characterRange = [lm characterRangeForGlyphRange: glyphRange
-			 actualGlyphRange: NULL];
-    /*
-    NSLog(@"glyphRange    : %@", NSStringFromRange(glyphRange));
-    NSLog(@"characterRange: %@", NSStringFromRange(characterRange));
-    */
-  }
+  glyphRange = [lm glyphRangeForBoundingRect:aRect
+                   inTextContainer: tc];
 
-  string = [self string];
-  length = [string length];
+  if (!NSEqualRanges(glyphRange, NSMakeRange(0, 0)))
+    {
+      int i = 0;
+      int count = [blockCharacterRangesArray count];
+      int charStart, charEnd;
 
-  //  [[NSColor whiteColor] set];
-  [[NSColor colorWithDeviceRed:0.7 green:0.7 blue:1. alpha:1.] set];
+      characterRange = [lm characterRangeForGlyphRange: glyphRange
+                           actualGlyphRange: NULL];  
 
-  range.location = 0;
-  range.length = 0;
-
-
-  {
-    int i = 0;
-    int count = [blockCharacterRangesArray count];
-    int charStart, charEnd;
-
-    for (i = 0; i < count; i += 2)
-      {
-	charStart = [[blockCharacterRangesArray objectAtIndex: i]
+      for (i = 0; i < count; i += 2)
+        {
+          charStart = [[blockCharacterRangesArray objectAtIndex: i]
+		        intValue];
+          charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
 		      intValue];
-	charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
-		    intValue];
-	if (charEnd >= characterRange.location)
-	  {
-	    break;
-	  }
-      }
-    
-    for (; i < count; i += 2)
-      {
-	charStart = [[blockCharacterRangesArray objectAtIndex: i]
+          if (charEnd >= characterRange.location)
+	    {
+	      break;
+	    }
+        }
+
+      for (; i < count; i += 2)
+        {
+          charStart = [[blockCharacterRangesArray objectAtIndex: i]
+		        intValue];
+          charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
 		      intValue];
-	charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
-		    intValue];
-	if (charStart > NSMaxRange(characterRange))
-	  {
-	    break;
-	  }
+          if (charStart > NSMaxRange(characterRange))
+	    {
+	      break;
+	    }
 
-	blockRectsArray[i/2].size.width = aRect.size.width;
-	blockRectsArray[i/2].origin.x = aRect.origin.x;
+          blockRectsArray[i/2].size.width = aRect.size.width;
+          blockRectsArray[i/2].origin.x = aRect.origin.x;
 
-	[[colors objectAtIndex: i/2] set];
+          [[colors objectAtIndex: i/2] set];
 
-	NSRectFill(
-	  NSIntersectionRect(aRect,
-			     blockRectsArray[i/2]));
+          NSRectFill(NSIntersectionRect(aRect, blockRectsArray[i/2]));
 
-      }
+        }
 
-  }
+    }
 
   [super drawRect: aRect];
 }

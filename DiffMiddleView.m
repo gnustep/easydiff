@@ -231,7 +231,7 @@
     }
 
 
-  //  [self setNeedsDisplay: YES];
+  [self setNeedsDisplay: YES];
 }
 
 - (void) drawRect: (NSRect) aRect
@@ -307,7 +307,7 @@
     firstChange = (rfirstChange < lfirstChange) ? rfirstChange : lfirstChange;
     lastChange = (rlastChange > llastChange) ? rlastChange : llastChange;
     
-    [[NSColor whiteColor] set];
+    [[NSColor colorWithDeviceRed:0.7 green:0.7 blue:1. alpha:1.] set];
     //    NSLog(@"%i %i", firstChange, lastChange);
     for ( i = firstChange; i < lastChange; i++ )
       {
@@ -359,13 +359,14 @@
 
 	[bp fill];
 
+/*
 	bp = [NSBezierPath bezierPath];
 	[bp moveToPoint: NSMakePoint(x2, (y1+y2)/2)];
 	[bp curveToPoint: NSMakePoint(x4, (y3+y4)/2)
 	    controlPoint1: NSMakePoint(x2+20, (y1+y2)/2)
 	    controlPoint2: NSMakePoint(x4-20, (y3+y4)/2) ];
 	[bp stroke];
-
+*/
 	/*
 	{
 	  NSRect widgetRect;

@@ -1,3 +1,11 @@
+2003-07-05  Benhur Stein <benhur@inf.ufsm.br>
+
+	* DiffMiddleView.m (tile): Set needs display.
+	(drawRect:): Use a bluish color for the foreground.
+	* DiffScroller.m (drawRect:): Idem.
+	* DiffTextView.m (computeLineRangesFromUpTo:): Avoid an empty range. 
+	* DiffView.m: Display fixups.
+
 2003-07-05  Philippe C.D. Robert <probert@siggraph.org>
 
         * Replacing all #import directives with #include directives

@@ -176,6 +176,7 @@
 - (void) setLeftLineRanges: (NSArray *) leftLineRanges
 	andRightLineRanges: (NSArray *) rightLineRanges
 {
+  [self tile];
   [leftTextView setLineRanges: leftLineRanges];
   [rightTextView setLineRanges: rightLineRanges];
   [leftTextView computeLineRangesFromUpTo: 1000];
@@ -235,18 +236,10 @@
   int count = [leftTextView->changes count];
   int length = count + 2;
   float visibleHeight;
+  float infLimit, supLimitLeft, supLimitRight, supLimitMerge;
 
-
-  if ([leftView documentVisibleRect].size.height >
-      [rightView documentVisibleRect].size.height)
-    {
-      visibleHeight = [rightView documentVisibleRect].size.height;
-    }
-  else
-    {
-      visibleHeight = [leftView documentVisibleRect].size.height;
-    }    
-
+  visibleHeight = MIN(NSHeight([leftView documentVisibleRect]), 
+                      NSHeight([rightView documentVisibleRect]));
     
   lSP = (float *) NSZoneMalloc([self zone],
 			       sizeof(float) * length);
@@ -255,79 +248,44 @@
   mSP = (float *) NSZoneMalloc([self zone],
 			       sizeof(float) * length);
 
-
-  
-  
   scroller->position = (float *) NSZoneMalloc([self zone],
 					      sizeof(float) * length);
-  scroller->position[0] = 0;
-  /*
-  */
-  //  scroller->position = mSP;
   scroller->length = length;
   
+  scroller->position[0] = 0;
+  for ( i = 1; i < length; i++ )
+    {
+      scroller->position[i] =
+        scroller->position[i-1]+
+        MAX(leftTextView->separationPosition[i] -
+            leftTextView->separationPosition[i-1],
+            rightTextView->separationPosition[i] -
+            rightTextView->separationPosition[i-1]);
+    }
 
-  NSDebugLog(@"visibleHeight %f", visibleHeight);
+  mergeFileHeight = scroller->position[length - 1];
+  scroller->height = mergeFileHeight;
+
+  infLimit = visibleHeight / 2.0;
+  supLimitLeft = leftTextView->separationPosition[length - 1] -
+		       visibleHeight / 2.0;
+  supLimitRight = rightTextView->separationPosition[length - 1] -
+		       visibleHeight / 2.0;
+  supLimitMerge = scroller->position[length - 1] -
+		       visibleHeight / 2.0;
   
   for ( i = 0; i < length; i++ )
     {
-      lSP[i] = MAX(MIN(leftTextView->separationPosition[i],
-		       leftTextView->separationPosition[length - 1] -
-		       visibleHeight / 2.),
-		   visibleHeight / 2.);
-      rSP[i] = MAX(MIN(rightTextView->separationPosition[i],
-		       rightTextView->separationPosition[length - 1] -
-		       visibleHeight / 2.),
-		   visibleHeight / 2.);
-
+      float leftPosition, rightPosition, mergePosition;
       
-      NSDebugLog(@"%f %f", leftTextView->separationPosition[i],
-	    rightTextView->separationPosition[i]);
+      leftPosition = leftTextView->separationPosition[i];
+      rightPosition = rightTextView->separationPosition[i];
+      mergePosition = scroller->position[i];
+      
+      lSP[i] = MAX(MIN(leftPosition, supLimitLeft), infLimit);
+      rSP[i] = MAX(MIN(rightPosition, supLimitRight), infLimit);
+      mSP[i] = MAX(MIN(mergePosition, supLimitMerge), infLimit);
     }
-
-
-
-  mSP[0] = visibleHeight / 2.;
-  i = 0;
-  NSDebugLog(@"i: %d  l: %f  r: %f  m: %f\n", i, lSP[i], rSP[i], mSP[i]); 
-
-  for ( i = 1; i < length; i++ )
-    {
-      mSP[i] = mSP[i-1] +
-	MAX(lSP[i] - lSP[i-1],
-	    rSP[i] - rSP[i-1]);
-
-      NSDebugLog(@"i: %d  l: %f  r: %f  m: %f\n", i, lSP[i], rSP[i], mSP[i]); 
-    }
-
-
-  {
-    BOOL start = NO;
-    for ( i = 1; i < length; i++ )
-      {
-	if (mSP[i] > visibleHeight / 2.)
-	  {
-	    start = YES;
-	    scroller->position[i-1] = mSP[i-1];
-	  }
-
-	if (start)
-	  scroller->position[i] =
-	    scroller->position[i-1]+
-	    MAX(leftTextView->separationPosition[i] -
-		leftTextView->separationPosition[i-1],
-		rightTextView->separationPosition[i] -
-		rightTextView->separationPosition[i-1]);
-
-	
-      }
-  }
-
-  mergeFileHeight = mSP[length - 1] + visibleHeight / 2.;
-
-
-  scroller->height = mergeFileHeight;// + visibleHeight / 2.;
-   
 }
 
 - (float) mergeFileHeight
@@ -349,15 +307,8 @@
   int length = count + 2;
   int i;
 
-  if ([leftView documentVisibleRect].size.height >
-      [rightView documentVisibleRect].size.height)
-    {
-      visibleHeight = [rightView documentVisibleRect].size.height;
-    }
-  else
-    {
-      visibleHeight = [leftView documentVisibleRect].size.height;
-    }    
+  visibleHeight = MIN(NSHeight([leftView documentVisibleRect]), 
+                      NSHeight([rightView documentVisibleRect]));
 
   switch ([scroller hitPart])
     {
@@ -385,12 +336,6 @@
 
   NSDebugLog(@"position %f", position);
 
-
-
-
-  _scrolling = YES;
-  [_window disableFlushWindow];
-
   for ( i = 0; i < length; i ++)
     {
       if ( (mSP[i] <= position)
@@ -401,14 +346,11 @@
 
   ratio = (position - mSP[i]) / (mSP[i+1] - mSP[i]);
 
-
   // we want "ratio == (leftPosition - lSP[i]) / (lSP[i+1] - lSP[i]);"
   
   leftPosition = ratio * (lSP[i+1] - lSP[i]) + lSP[i];
-
   rightPosition = ratio * (rSP[i+1] - rSP[i]) + rSP[i];
   
-
   [leftTextView scrollPoint: 
 		  NSMakePoint([leftTextView visibleRect].origin.x,
 			      leftPosition - visibleHeight / 2.)];
@@ -417,11 +359,6 @@
 			       rightPosition - visibleHeight / 2.)];
 
   [middleView tile];
-  [middleView display];
-
-  [_window enableFlushWindow];
-  [_window flushWindow];
-  _scrolling = NO;
 }
 
 - (void) scrollWheel: (NSEvent *)theEvent
