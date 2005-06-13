@@ -61,8 +61,9 @@
 - (id) initWithFilename: (NSString *) filename1
 	andTempFilename: (NSString *) filename2
 {
-  [self _initWithFilename: filename1
-	andFilename: filename2];
+  /* Switch filenames so the CVS version is on the left */
+  [self _initWithFilename: filename2
+	andFilename: filename1];
 
   tempFilename = filename2;
 
@@ -74,8 +75,8 @@
 		   
   [[self window] makeKeyAndOrderFront: self];
 
-  leftFileName = RETAIN(filename1);
-  rightFileName = nil;
+  leftFileName = nil;
+  rightFileName = RETAIN(filename1);
 
   return self;
 }

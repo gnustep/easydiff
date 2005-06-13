@@ -196,7 +196,7 @@
 
   width = (size.width - 80) / 2;
 
-  width = ceilf(width);
+  width = ceil(width);
   
   [leftView setFrame: 
 	      NSMakeRect(0, 0,

@@ -1,3 +1,11 @@
+2005-06-13  Adam Fedor  <fedor@gnu.org>
+
+	* AppController.m ([AppController -compareFileToCVS:sender]): 
+	Get the path to the cvs executable.
+	* DiffView.m ([DiffView -tile]): ceilf->ceil	
+	* DiffWindowController.m (-initWithFilename:andTempFilename:):
+	Switch filenames so CVS version is on the left.
+
 2003-07-05  Benhur Stein <benhur@inf.ufsm.br>
 
 	* DiffMiddleView.m (tile): Set needs display.

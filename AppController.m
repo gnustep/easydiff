@@ -106,6 +106,7 @@
     forKey:@"OpenDirectory"]; 
 
   {
+    NSString *cvs;
     NSTask *taskCVS = [[NSTask alloc] init];
     NSFileHandle *fh;
     filename2 = [NSString stringWithFormat:@"%@/%d_%@_%@", 
@@ -118,7 +119,10 @@
 			    locale:nil],
 			  [filename1 lastPathComponent]];
     
-    [taskCVS setLaunchPath: @"cvs"];
+    cvs = [NSBundle _absolutePathOfExecutable: @"cvs"];
+    if (cvs == nil)
+      cvs = @"cvs";
+    [taskCVS setLaunchPath: cvs];
     [taskCVS setCurrentDirectoryPath: path];
     [taskCVS setArguments:
 	       [NSArray arrayWithObjects:
