@@ -53,6 +53,7 @@
   TEST_RELEASE(lineRangesArray);
   TEST_RELEASE(changes);
   TEST_RELEASE(colors);
+  [super dealloc];
 }
 
 - (void) setChanges: (NSArray *)anArray
@@ -114,8 +115,8 @@
     int startLine;
     int endLine;
     int currentLine;
-    int firstCharOfLine = firstCharOfLastLine;
-    int firstCharOfNextLine;
+    unsigned int firstCharOfLine = firstCharOfLastLine;
+    unsigned int firstCharOfNextLine;
     int i;
     int a, b;
 

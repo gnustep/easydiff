@@ -44,14 +44,14 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 				   file2]);
 
   {
-    int length = [leftString length];
-    int end;
+    unsigned int length = [leftString length];
+    unsigned int end;
     leftLineRangesArray = [[NSMutableArray alloc] init];
     [leftLineRangesArray addObject:
 			   [NSNumber numberWithInt: -1]];
 
-    end = -1;
-    while (end < length - 1)
+    end = 0;
+    while ((end < length - 1) && (length != 0))
       {
 	[leftString getLineStart: NULL
 		    end: NULL
@@ -71,14 +71,14 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
   }
 
   {
-    int length = [rightString length];
-    int end;
+    unsigned int length = [rightString length];
+    unsigned int end;
     rightLineRangesArray = [[NSMutableArray alloc] init];
     [rightLineRangesArray addObject:
 			   [NSNumber numberWithInt: -1]];
 
-    end = -1;
-    while (end < length - 1)
+    end = 0;
+    while ((end < length - 1) && (length != 0))
       {
 	[rightString getLineStart: NULL
 		    end: NULL
@@ -112,6 +112,7 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
   TEST_RELEASE(rightChanges);
   TEST_RELEASE(leftLineRangesArray);
   TEST_RELEASE(rightLineRangesArray);
+  [super dealloc];
 }
 
 - (NSArray *) leftLineRanges

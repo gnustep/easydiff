@@ -328,7 +328,8 @@
       newValue -= 100 / mergeFileHeight;
       [scroller setFloatValue: newValue];
       break;
-
+    default:
+      break;
     }
 
   position = [sender floatValue] * 
