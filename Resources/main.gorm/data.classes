@@ -1,77 +1,40 @@
 {
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
     AppController = {
 	Actions = (
+	    "compareFiles:",
 	    "compareFileToCVS:",
-	    "compareFiles:"
+	    "showPrefPanel:",
+	    "prefApply:",
+	    "prefCancel:",
+	    "prefChooseCvsExec:"
 	);
 	Outlets = (
-	    windowMenuItem
+	    prefPanel,
+	    cvsPathField
 	);
 	Super = NSObject;
     };
     FirstResponder = {
 	Actions = (
+	    "compareFileToCVS:",
+	    "compareFiles:",
+	    "prefApply:",
+	    "prefCancel:",
+	    "prefChooseCvsExec:",
 	    "saveMergedFile:",
 	    "savePatchFromLeft:",
 	    "savePatchFromRight:",
 	    "selectAllLeftChanges:",
 	    "selectAllRightChanges:",
-	    "selectNoChanges:"
+	    "selectNoChanges:",
+	    "showPrefPanel:"
 	);
+	Super = NSObject;
     };
     NSApplication = {
 	Actions = (
-	    "orderFrontSharedMemoryPanel:",
-	    "orderFrontStandardInfoPanel:"
-	);
-	Outlets = (
-	    delegate
-	);
-	Super = NSResponder;
-    };
-    NSButton = {
-	Super = NSControl;
-    };
-    NSControl = {
-	Actions = (
-	    "takeDoubleValueFrom:",
-	    "takeFloatValueFrom:",
-	    "takeIntValueFrom:",
-	    "takeObjectValueFrom:",
-	    "takeStringValueFrom:"
-	);
-	Outlets = (
-	    target
-	);
-	Super = NSView;
-    };
-    NSMenu = {
-	Super = NSObject;
-    };
-    NSMenuItem = {
-	Outlets = (
-	    target
-	);
-	Super = NSObject;
-    };
-    NSResponder = {
-	Super = NSObject;
-    };
-    NSSlider = {
-	Super = NSControl;
-    };
-    NSTextField = {
-	Outlets = (
-	    delegate
-	);
-	Super = NSControl;
-    };
-    NSView = {
-	Super = NSResponder;
-    };
-    NSWindow = {
-	Outlets = (
-	    delegate
+	    "orderFrontSharedMemoryPanel:"
 	);
 	Super = NSResponder;
     };
