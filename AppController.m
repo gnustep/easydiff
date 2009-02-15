@@ -2,6 +2,7 @@
  * AppController.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ * Copyright (c) 2002-2009, GNUstep Project
  *
  * This file is part of EasyDiff.app.
  *
@@ -28,13 +29,25 @@
 #include <math.h>
 
 @implementation AppController
+
 - (void) awakeFromNib
 {
-  [NSApp setWindowsMenu: [windowMenuItem submenu]];
 }
 
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotif
+{
+  NSUserDefaults *defaults;
+  NSString *str;
 
-- (void) compareFiles: (id) sender
+  /* read the user preferences */
+  defaults = [NSUserDefaults standardUserDefaults];
+  str = [defaults stringForKey:@"CvsExecutablePath"];
+  if (str == nil)
+    str = @"cvs";
+  cvsExecPath = str;
+}
+
+- (IBAction) compareFiles: (id)sender
 {
   DiffWindowController *dwc;
   NSOpenPanel *oPanel;
@@ -80,7 +93,7 @@
 }
 
 
-- (void) compareFileToCVS: (id) sender
+- (IBAction) compareFileToCVS: (id)sender
 {
   DiffWindowController *dwc;
   NSOpenPanel *oPanel;
@@ -106,7 +119,6 @@
     forKey:@"OpenDirectory"]; 
 
   {
-    NSString *cvs;
     NSTask *taskCVS = [[NSTask alloc] init];
     NSFileHandle *fh;
     filename2 = [NSString stringWithFormat:@"%@/%d_%@_%@", 
@@ -119,10 +131,7 @@
 			    locale:nil],
 			  [filename1 lastPathComponent]];
     
-    cvs = [NSBundle _absolutePathOfExecutable: @"cvs"];
-    if (cvs == nil)
-      cvs = @"cvs";
-    [taskCVS setLaunchPath: cvs];
+    [taskCVS setLaunchPath: cvsExecPath];
     [taskCVS setCurrentDirectoryPath: path];
     [taskCVS setArguments:
 	       [NSArray arrayWithObjects:
@@ -168,4 +177,61 @@
 					 andTempFilename: filename2];
   }
 }
+
+/* preference panel methods */
+
+- (IBAction)showPrefPanel: (id)sender
+{
+  [prefPanel makeKeyAndOrderFront:self];
+  
+  [cvsPathField setStringValue:cvsExecPath];
+}
+
+- (IBAction)prefApply: (id)sender
+{
+  NSUserDefaults *defaults;
+  NSString *str;
+  
+  defaults = [NSUserDefaults standardUserDefaults];
+  
+  str = [cvsPathField stringValue];
+
+  if ((str != nil) && ([str length] > 0) && [[NSFileManager defaultManager] fileExistsAtPath:str])
+    {
+      cvsExecPath = str;
+      [defaults setObject:cvsExecPath forKey:@"CvsExecutablePath"];
+    }
+  else
+    {
+      NSRunAlertPanel(@"CVS Tool not found!",
+	          	   @"File %@ is invalid!",
+      		        @"OK", nil, nil, str);
+    }
+    
+  [prefPanel performClose:nil];
+  [defaults synchronize];
+}
+
+- (IBAction)prefChooseCvsExec: (id)sender
+{
+  NSString    *file;
+  NSOpenPanel *openPanel;
+
+  openPanel = [NSOpenPanel openPanel];
+  [openPanel setAllowsMultipleSelection:NO];
+  [openPanel setCanChooseDirectories:NO];
+  [openPanel setCanChooseFiles:YES];
+
+  if ([openPanel runModal] == NSOKButton) 
+    {
+      file = [[openPanel filenames] objectAtIndex:0];
+      [cvsPathField setStringValue:file];
+    }
+}
+
+- (IBAction)prefCancel:(id)sender
+{
+  [prefPanel performClose:nil];
+}
+
 @end

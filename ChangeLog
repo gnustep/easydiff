@@ -1,3 +1,12 @@
+2008-02-15  Riccardo Mottola  <rmottola@users.sf.net>
+
+	* GNUmakefile,
+	AppController.m, AppController.h,
+	EasyDiffInfo.plist,
+	gorm files:
+	Warning fixes, implement preferences for CVS executable path and
+	removed wizardry relying on internal Bundle methods
+
 2006-11-15  Nicola Pero  <nicola.pero@meta-innovation.com>
 
 	* GNUmakefile: Removed GNUSTEP_INSTALLATION_DIR.
