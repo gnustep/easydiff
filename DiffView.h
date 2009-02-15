@@ -21,14 +21,11 @@
  *
  */
 
-#ifndef __DIFFVIEW_H
-#define __DIFFVIEW_H
-
-#include <AppKit/AppKit.h>
-#include "DiffView.h"
-#include "DiffTextView.h"
-#include "DiffMiddleView.h"
-#include "DiffScroller.h"
+#import <AppKit/AppKit.h>
+#import "DiffView.h"
+#import "DiffTextView.h"
+#import "DiffMiddleView.h"
+#import "DiffScroller.h"
 
 @interface DiffView: NSView
 {
@@ -73,6 +70,4 @@
 
 - (DiffMiddleView *) middleView;
 @end
-
-#endif
 

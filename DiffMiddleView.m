@@ -21,7 +21,7 @@
  *
  */
 
-#include "DiffMiddleView.h"
+#import "DiffMiddleView.h"
 
 @implementation DiffMiddleView
 - (void) dealloc

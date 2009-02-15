@@ -22,7 +22,7 @@
  */
 
 
-#include "DiffTextView.h"
+#import "DiffTextView.h"
 #include <math.h>
 
 //static NSRect rectsToFill[500];

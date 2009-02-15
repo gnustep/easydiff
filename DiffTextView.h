@@ -22,10 +22,7 @@
  */
 
 
-#ifndef _DIFFTEXTVIEW_H_
-#define _DIFFTEXTVIEW_H_
-
-#include <AppKit/AppKit.h>
+#import <AppKit/AppKit.h>
 
 @interface DiffTextView : NSTextView
 {
@@ -57,5 +54,4 @@
   forChangeNumber: (int) number;
 @end
 
-#endif // _DIFFTEXTVIEW_H_
 

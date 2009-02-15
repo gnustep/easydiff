@@ -22,9 +22,7 @@
  */
 
 
-#include <AppKit/AppKit.h>
-
-#define APP_NAME @"EasyDiff.app"
+#import <AppKit/AppKit.h>
 
 /*
  * Initialise and go!

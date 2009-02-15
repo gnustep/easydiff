@@ -21,12 +21,12 @@
  *
  */
 
-#include <AppKit/AppKit.h>
+#import <AppKit/AppKit.h>
 //#include "DiffTextView.h"
 //#include "DiffMiddleView.h"
-#include "DiffView.h"
-#include "DiffWindowController.h"
-#include "DiffWrapper.h"
+#import "DiffView.h"
+#import "DiffWindowController.h"
+#import "DiffWrapper.h"
 
 //extern void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2);
 

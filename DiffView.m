@@ -21,8 +21,8 @@
  *
  */
 
-#include <AppKit/AppKit.h>
-#include "DiffView.h"
+#import <AppKit/AppKit.h>
+#import "DiffView.h"
 #include <math.h>
 
 

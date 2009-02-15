@@ -22,9 +22,9 @@
  *
  */
 
-#include <AppKit/AppKit.h>
-#include "AppController.h"
-#include "DiffWindowController.h"
+#import <AppKit/AppKit.h>
+#import "AppController.h"
+#import "DiffWindowController.h"
 
 #include <math.h>
 

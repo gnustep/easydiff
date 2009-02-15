@@ -22,10 +22,7 @@
  *
  */
 
-#ifndef __APPCONTROLLER_H
-#define __APPCONTROLLER_H
-
-#include <AppKit/AppKit.h>
+#import <AppKit/AppKit.h>
 
 @interface AppController : NSObject
 {
@@ -44,6 +41,4 @@
 - (IBAction)prefChooseCvsExec: (id)sender;
 
 @end
-
-#endif
 
