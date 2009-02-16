@@ -70,7 +70,6 @@
 
   filename1 = [[oPanel filenames] objectAtIndex: 0];
 
-  oPanel = [NSOpenPanel openPanel];
   [oPanel setAllowsMultipleSelection:NO];
   result = [oPanel runModalForDirectory: path
 		   file:nil types:nil];
