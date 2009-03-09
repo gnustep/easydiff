@@ -11,6 +11,8 @@ VERSION = 0.4.0
 PACKAGE_NAME = EasyDiff
 APP_NAME = EasyDiff
 EasyDiff_APPLICATION_ICON = 
+SVN_MODULE_NAME = easydiff
+SVN_BASE_URL = svn+ssh://svn.gna.org/svn/gnustep/apps
 
 
 #
