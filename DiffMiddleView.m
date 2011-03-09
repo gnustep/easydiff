@@ -83,15 +83,15 @@
 	[[matrix cellAtRow: 0
 		 column: 0] setButtonType: NSOnOffButton];
 	[[matrix cellAtRow: 0
-		 column: 0] setStringValue: @"<"];
+		 column: 0] setTitle: @"<"];
 	[[matrix cellAtRow: 0
 		 column: 1] setButtonType: NSOnOffButton];
 	[[matrix cellAtRow: 0
-		 column: 1] setStringValue: @"x"];
+		 column: 1] setTitle: @"x"];
 	[[matrix cellAtRow: 0
 		 column: 2] setButtonType: NSOnOffButton];
 	[[matrix cellAtRow: 0
-		 column: 2] setStringValue: @">"];
+		 column: 2] setTitle: @">"];
 	//	[matrix deselectAllCells];
 	[matrix selectCellAtRow: 0
 		column: 1];

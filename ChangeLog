@@ -1,5 +1,10 @@
 2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
+	* DiffMiddleView.m (-setLeftChanged:andRightChanges:):
+	Use -setTitle: to set NSButtonCell titles.
+
+2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
+
 	* AppController.m (-compareFilesToCVS:):
 	* DiffMiddleView.m (-dealloc):
 	* DiffTextView.m (-setLineRanges:):
