@@ -1,5 +1,24 @@
 2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
+	* AppController.h:
+	* AppController.m:
+	* DiffFileChooser.h:
+	* DiffFileChooser.m:
+	* FileIconView.h:
+	* FileIconView.m:
+	* Resources/main.gorm:
+	* EasyDiff.pcproj/PC.project:
+	* GNUmakefile:
+	Present a dialog upon selecting the Compare Files menu command
+	where the user can choose the files to compare.
+
+	* AUTHORS:
+	* EasyDiff.pcproc/PC.project:
+	* EasyDiffInfo.plist:
+	Update list of authors.
+
+2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
+
 	* EasyDiff.pcproj:
 	* PC.project:
 	* GNUmakefile:

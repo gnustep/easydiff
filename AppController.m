@@ -47,50 +47,6 @@
   cvsExecPath = str;
 }
 
-- (IBAction) compareFiles: (id)sender
-{
-  NSOpenPanel *oPanel;
-  NSString *filename1, *filename2;
-  int result;
-
-  NSString *path = [[NSUserDefaults standardUserDefaults] 
-		    objectForKey:@"OpenDirectory"];
-
-
-  oPanel = [NSOpenPanel openPanel];
-  [oPanel setAllowsMultipleSelection:NO];
-  result = [oPanel runModalForDirectory: path
-		   file:nil types:nil];
-  
-  if (result != NSOKButton)
-    return;
-
-  path = [oPanel directory];
-
-  filename1 = [[oPanel filenames] objectAtIndex: 0];
-
-  [oPanel setAllowsMultipleSelection:NO];
-  result = [oPanel runModalForDirectory: path
-		   file:nil types:nil];
-
-  if (result != NSOKButton)
-    return;
-
-  path = [oPanel directory];
-
-  filename2 = [[oPanel filenames] objectAtIndex: 0];
-
-  [[NSUserDefaults standardUserDefaults] 
-    setObject: path
-    forKey:@"OpenDirectory"]; 
-
-  {
-    // NB The controller will be released when its window is closed
-    [[DiffWindowController alloc] initWithFilename: filename1
-				   andTempFilename: filename2];
-  }
-}
-
 
 - (IBAction) compareFileToCVS: (id)sender
 {

@@ -1,9 +1,11 @@
 /*
- * AppController.h
+ * FileIconView.h
  *
- * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
- * Copyright (c) 2002-2009, GNUstep Project
+ * Copyright (c) 2011, GNUstep Project
  *
+ * Author:  Wolfgang Lux <wolfgang.lux@gmail.com>
+ * Date: March 2011
+ * 
  * This file is part of EasyDiff.app.
  *
  * EasyDiff.app is free software; you can redistribute it and/or modify
@@ -24,20 +26,14 @@
 
 #import <AppKit/AppKit.h>
 
-@interface AppController : NSObject
+@interface FileIconView : NSImageView
 {
-  NSString *cvsExecPath;
-  
-  IBOutlet NSPanel *prefPanel;
-  IBOutlet NSTextField *cvsPathField;
+  NSString *fileName;
 }
 
-- (IBAction)compareFileToCVS: (id)sender;
-
-- (IBAction)showPrefPanel: (id)sender;
-- (IBAction)prefApply: (id)sender;
-- (IBAction)prefCancel: (id)sender;
-- (IBAction)prefChooseCvsExec: (id)sender;
+- (NSString *)fileName;
+- (void)setFileName: (NSString *)aFileName;
 
 @end
 
+APPKIT_EXPORT NSString *FileIconViewFileNameDidChangeNotification;

@@ -2,7 +2,6 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     AppController = {
 	Actions = (
-	    "compareFiles:",
 	    "compareFileToCVS:",
 	    "showPrefPanel:",
 	    "prefApply:",
@@ -15,8 +14,35 @@
 	);
 	Super = NSObject;
     };
+    DiffFileChooser = {
+	Actions = (
+	    "showWindow:",
+	    "compare:",
+	    "chooseFile:"
+	);
+	Outlets = (
+	    window,
+	    leftButton,
+	    rightButton,
+	    leftPath,
+	    rightPath,
+	    leftIcon,
+	    rightIcon,
+	    compareButton
+	);
+	Super = NSObject;
+    };
+    FileIconView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
+    };
     FirstResponder = {
 	Actions = (
+	    "chooseFile:",
+	    "compare:",
 	    "compareFileToCVS:",
 	    "compareFiles:",
 	    "prefApply:",
@@ -28,6 +54,7 @@
 	    "selectAllLeftChanges:",
 	    "selectAllRightChanges:",
 	    "selectNoChanges:",
+	    "showFilePanel:",
 	    "showPrefPanel:"
 	);
 	Super = NSObject;

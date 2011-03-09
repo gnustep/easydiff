@@ -21,7 +21,9 @@
 	"DiffView.m",
 	"DiffWrapper.m",
 	"DiffWindowController.m",
-	"DiffScroller.m"
+	"DiffScroller.m",
+	"DiffFileChooser.m",
+	"FileIconView.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -36,7 +38,9 @@
 	"DiffTextView.h",
 	"DiffMiddleView.h",
 	"DiffView.h",
-	"DiffWindowController.h"
+	"DiffWindowController.h",
+	"DiffFileChooser.h",
+	"FileIconView.h"
     );
     IMAGES = (
     );
@@ -67,9 +71,10 @@
 	"GNUstep Team",
 	"Pierre-Yves Rivaille",
 	"Adam Fedor",
-	"Riccardo Mottola"
+	"Riccardo Mottola",
+	"Wolfgang Lux"
     );
-    "PROJECT_COPYRIGHT" = "2002-2009";
+    "PROJECT_COPYRIGHT" = "2002-2011";
     "PROJECT_COPYRIGHT_DESC" = "Released under GPL 2.0";
     "PROJECT_CREATOR" = "";
     "PROJECT_DESCRIPTION" = "A graphical diff utility";

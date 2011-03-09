@@ -1,9 +1,11 @@
 /*
- * AppController.h
+ * DiffFileChooser.h
  *
- * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
- * Copyright (c) 2002-2009, GNUstep Project
+ * Copyright (c) 2011, GNUstep Project
  *
+ * Author:  Wolfgang Lux <wolfgang.lux@gmail.com>
+ * Date: March 2011
+ * 
  * This file is part of EasyDiff.app.
  *
  * EasyDiff.app is free software; you can redistribute it and/or modify
@@ -24,20 +26,30 @@
 
 #import <AppKit/AppKit.h>
 
-@interface AppController : NSObject
+@class FileIconView;
+
+@interface DiffFileChooser : NSObject<NSUserInterfaceValidations>
 {
-  NSString *cvsExecPath;
-  
-  IBOutlet NSPanel *prefPanel;
-  IBOutlet NSTextField *cvsPathField;
+  IBOutlet NSWindow *window;
+
+  IBOutlet NSButton *leftButton;
+  IBOutlet NSButton *rightButton;
+
+  IBOutlet NSTextField *leftPath;
+  IBOutlet NSTextField *rightPath;
+
+  IBOutlet FileIconView *leftIcon;
+  IBOutlet FileIconView *rightIcon;
+
+  IBOutlet NSButton *compareButton;
 }
 
-- (IBAction)compareFileToCVS: (id)sender;
+- (NSString *)leftFileName;
+- (NSString *)rightFileName;
 
-- (IBAction)showPrefPanel: (id)sender;
-- (IBAction)prefApply: (id)sender;
-- (IBAction)prefCancel: (id)sender;
-- (IBAction)prefChooseCvsExec: (id)sender;
+- (IBAction)showWindow: (id)sender;
+- (IBAction)compare: (id)sender;
+- (IBAction)chooseFile: (id)sender;
 
 @end
 

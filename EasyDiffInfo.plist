@@ -6,9 +6,10 @@
 	"GNUstep Team",
 	"Pierre-Yves Rivaille",
 	"Adam Fedor",
-	"Riccardo Mottola"
+	"Riccardo Mottola",
+	"Wolfgang Lux"
     );
-    Copyright = "2002-2009";
+    Copyright = "2002-2011";
     CopyrightDescription = "Released under GPL 2.0";
     FullVersionID = "0.4.0";
     NOTE = "Automatically generated!";

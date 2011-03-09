@@ -37,7 +37,9 @@ AppController.h \
 DiffTextView.h \
 DiffMiddleView.h \
 DiffView.h \
-DiffWindowController.h
+DiffWindowController.h \
+DiffFileChooser.h \
+FileIconView.h
 
 #
 # Class files
@@ -50,7 +52,9 @@ DiffMiddleView.m \
 DiffView.m \
 DiffWrapper.m \
 DiffWindowController.m \
-DiffScroller.m
+DiffScroller.m \
+DiffFileChooser.m \
+FileIconView.m
 
 #
 # Makefiles
