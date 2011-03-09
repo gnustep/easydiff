@@ -1,5 +1,12 @@
 2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
+	* Resources/main.gorm: Rearrange main menu, add standard edit menu
+	items, and add Services menu.
+
+	* DiffTextView.m (-initWithFrame:): Make view selectable.
+
+2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
+
 	* AppController.h:
 	* AppController.m:
 	* DiffFileChooser.h:

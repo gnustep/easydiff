@@ -42,7 +42,7 @@
   firstCharOfLastLine = 0;
 
   [self setEditable: NO];
-  [self setSelectable: NO];
+  [self setSelectable: YES];
   [self setDrawsBackground: NO];
 
   return self;
