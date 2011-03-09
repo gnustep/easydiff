@@ -1,5 +1,14 @@
 2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
+	* EasyDiff.pcproj:
+	* PC.project:
+	* GNUmakefile:
+	* GNUmakefile.preamble:
+	* EasyDiffInfo.plist:
+	Upgrade project and support files to latest PC version.
+
+2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
+
 	* DiffMiddleView.m (-setLeftChanged:andRightChanges:):
 	Use -setTitle: to set NSButtonCell titles.
 

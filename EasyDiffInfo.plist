@@ -1,7 +1,7 @@
 {
     ApplicationDescription = "A graphical diff utility";
     ApplicationName = EasyDiff;
-    ApplicationRelease = 0.4.0;
+    ApplicationRelease = "0.4.0";
     Authors = (
 	"GNUstep Team",
 	"Pierre-Yves Rivaille",
@@ -10,10 +10,10 @@
     );
     Copyright = "2002-2009";
     CopyrightDescription = "Released under GPL 2.0";
-    FullVersionID = 0.4.0;
+    FullVersionID = "0.4.0";
     NOTE = "Automatically generated!";
     NSExecutable = EasyDiff;
-    NSMainNibFile = main.gorm;
+    NSMainNibFile = "main.gorm";
     NSPrincipalClass = NSApplication;
     NSRole = Application;
 }
