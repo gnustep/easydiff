@@ -49,7 +49,6 @@
 
 - (IBAction) compareFiles: (id)sender
 {
-  DiffWindowController *dwc;
   NSOpenPanel *oPanel;
   NSString *filename1, *filename2;
   int result;
@@ -86,15 +85,15 @@
     forKey:@"OpenDirectory"]; 
 
   {
-    dwc =  [[DiffWindowController alloc] initWithFilename: filename1
-					 andFilename: filename2];
+    // NB The controller will be released when its window is closed
+    [[DiffWindowController alloc] initWithFilename: filename1
+				   andTempFilename: filename2];
   }
 }
 
 
 - (IBAction) compareFileToCVS: (id)sender
 {
-  DiffWindowController *dwc;
   NSOpenPanel *oPanel;
   NSString *filename1, *filename2;
   int result;
@@ -144,6 +143,7 @@
 					attributes: nil] == NO)
       {
 	NSLog(@"aye 1");
+	RELEASE(taskCVS);
 	return;
       }
 
@@ -152,12 +152,14 @@
     if (fh == nil)
       {
 	NSLog(@"aye 2");
+	RELEASE(taskCVS);
 	return;
       }
     [taskCVS setStandardOutput: fh];
 	           
     [taskCVS launch];
     [taskCVS waitUntilExit];
+    RELEASE(taskCVS);
 
     [fh closeFile];
 
@@ -172,8 +174,9 @@
 
   }
   {
-    dwc =  [[DiffWindowController alloc] initWithFilename: filename1
-					 andTempFilename: filename2];
+    // NB The controller will be released when its window is closed
+    [[DiffWindowController alloc] initWithFilename: filename1
+				   andTempFilename: filename2];
   }
 }
 

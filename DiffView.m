@@ -144,6 +144,29 @@
   return self;
 }
 
+- (void)dealloc
+{
+  [[NSNotificationCenter defaultCenter]
+    removeObserver: self
+    name: NSViewBoundsDidChangeNotification
+    object: [leftView contentView]];
+  [[NSNotificationCenter defaultCenter]
+    removeObserver: self
+    name: NSViewBoundsDidChangeNotification
+    object: [rightView contentView]];
+  if (leftTextView)
+    [[NSNotificationCenter defaultCenter]
+      removeObserver: leftTextView
+      name: NSViewFrameDidChangeNotification
+      object: [leftView contentView]];
+  if (rightTextView)
+    [[NSNotificationCenter defaultCenter]
+      removeObserver: rightTextView
+      name: NSViewFrameDidChangeNotification
+      object: [rightView contentView]];
+  [super dealloc];
+}
+
 - (void) setLeftString: (NSString *) aString
 {
   [leftTextView setString: aString];

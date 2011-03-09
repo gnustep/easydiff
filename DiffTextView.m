@@ -50,9 +50,9 @@
 
 - (void) dealloc
 {
-  TEST_RELEASE(lineRangesArray);
-  TEST_RELEASE(changes);
-  TEST_RELEASE(colors);
+  RELEASE(lineRangesArray);
+  RELEASE(changes);
+  RELEASE(colors);
   [super dealloc];
 }
 
@@ -60,11 +60,9 @@
 {
   int i;
   int count;
-  if (changes)
-    RELEASE(changes);
-  changes = RETAIN(anArray);
+  ASSIGN(changes, anArray);
   
-  TEST_RELEASE(colors);
+  RELEASE(colors);
 
   count = [changes count] / 2;
 
@@ -115,8 +113,8 @@
     int startLine;
     int endLine;
     int currentLine;
-    unsigned int firstCharOfLine = firstCharOfLastLine;
-    unsigned int firstCharOfNextLine;
+    NSUInteger firstCharOfLine = firstCharOfLastLine;
+    NSUInteger firstCharOfNextLine;
     int i;
     int a, b;
 
@@ -289,6 +287,7 @@
   int end;
   int len = [internalString length];
 
+  RELEASE(lineRangesArray);
   lineRangesArray = [[NSMutableArray alloc] init];
   [lineRangesArray addObject:
 		     [NSNumber numberWithInt: -1]];
@@ -316,7 +315,7 @@
 
 - (void) setLineRanges: (NSArray *) lineRanges
 {
-  lineRangesArray = RETAIN(lineRanges);
+  ASSIGN(lineRangesArray, lineRanges);
 
   //  NSLog(@"lineRanges count %d", [lineRanges count]);
   
@@ -414,8 +413,6 @@
 
       for (i = 0; i < count; i += 2)
         {
-          charStart = [[blockCharacterRangesArray objectAtIndex: i]
-		        intValue];
           charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
 		      intValue];
           if (charEnd >= characterRange.location)
@@ -428,8 +425,6 @@
         {
           charStart = [[blockCharacterRangesArray objectAtIndex: i]
 		        intValue];
-          charEnd = [[blockCharacterRangesArray objectAtIndex: i+1]
-		      intValue];
           if (charStart > NSMaxRange(characterRange))
 	    {
 	      break;

@@ -26,8 +26,9 @@
 @implementation DiffMiddleView
 - (void) dealloc
 {
-  TEST_RELEASE(leftChanges);
-  TEST_RELEASE(rightChanges);
+  RELEASE(leftChanges);
+  RELEASE(rightChanges);
+  RELEASE(matrixArray);
   [super dealloc];
 }
 

@@ -297,5 +297,10 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 
   *r1 = leftChanges;
   *r2 = rightChanges;
+
+  RELEASE(taskDiff);
+  RELEASE(taskGrep);
+  RELEASE(pipe1);
+  RELEASE(pipe2);
 }
 

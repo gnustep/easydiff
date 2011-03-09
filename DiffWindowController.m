@@ -214,6 +214,10 @@
 - (void) dealloc
 {
   NSDebugLog(@"dealloc called");
+  [[NSNotificationCenter defaultCenter]
+    removeObserver: self
+    name: NSViewFrameDidChangeNotification
+    object: diffView];
   if (tempFilename != nil)
     {
       if ([[NSFileManager defaultManager]
@@ -221,8 +225,12 @@
 	    handler: nil] == NO)
 	NSLog(@"We could not delete %@", tempFilename);
     }
-  TEST_RELEASE(leftFileName);
-  TEST_RELEASE(rightFileName);
+  RELEASE(leftChanges);
+  RELEASE(rightChanges);
+  RELEASE(leftFileName);
+  RELEASE(rightFileName);
+  RELEASE(diffWrapper);
+  free(choices);
   [super dealloc];
 }
 
@@ -454,12 +462,10 @@
   NSString *fstr;
   NSString *tstr;
   
-  NSMutableArray *patchArray = [[NSMutableArray alloc] 
-				 initWithCapacity:
+  NSMutableArray *patchArray = [NSMutableArray arrayWithCapacity:
 				   ([leftChanges count] / 2) + 1];
 
-  NSMutableArray *finalArray = [[NSMutableArray alloc] 
-				 initWithCapacity:
+  NSMutableArray *finalArray = [NSMutableArray arrayWithCapacity:
 				   ([leftChanges count] / 2) + 1];
   NSArray *fromChanges;
   NSArray *toChanges;
@@ -558,6 +564,7 @@
 	    [patchArray addObject: p];
 	  
 	}
+      RELEASE(p);
     }
 
   
@@ -599,7 +606,7 @@
 	    }
 
 	  // new chunk
-	  pp = [[PatchData alloc] init];;
+	  RELEASE(pp);
 
 	  j = p->start - 3;
 	  if ( j < 0)
@@ -668,6 +675,7 @@
       
       [finalArray addObject: pp];
     }
+  RELEASE(pp);
 
 
   {
