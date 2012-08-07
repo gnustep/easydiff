@@ -1,3 +1,15 @@
+2012-08-06 Riccardo Mottola <rm@gnu.org>
+
+	* DiffFileChooser.h
+	* DiffFileChooser.m
+	Setters for left and right filenames.
+
+	* AppController.h
+	* Resources/main.gorm
+	* AppController.m
+	Expose openFiles delegate and if two filenames are supplied,
+	automatically open the file chooser with the filenames set.
+
 2011-03-09  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
 	* Resources/main.gorm: Rearrange main menu, add standard edit menu

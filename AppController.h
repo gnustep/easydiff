@@ -2,7 +2,7 @@
  * AppController.h
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
- * Copyright (c) 2002-2009, GNUstep Project
+ * Copyright (c) 2002-2012, GNUstep Project
  *
  * This file is part of EasyDiff.app.
  *
@@ -24,9 +24,13 @@
 
 #import <AppKit/AppKit.h>
 
+@class DiffFileChooser;
+
 @interface AppController : NSObject
 {
   NSString *cvsExecPath;
+
+  IBOutlet DiffFileChooser *diffFileChooser;
   
   IBOutlet NSPanel *prefPanel;
   IBOutlet NSTextField *cvsPathField;

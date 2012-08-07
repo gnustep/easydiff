@@ -9,6 +9,7 @@
 	    "prefChooseCvsExec:"
 	);
 	Outlets = (
+	    diffFileChooser,
 	    prefPanel,
 	    cvsPathField
 	);

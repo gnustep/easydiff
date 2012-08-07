@@ -2,7 +2,7 @@
  * AppController.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
- * Copyright (c) 2002-2009, GNUstep Project
+ * Copyright (c) 2002-2012, GNUstep Project
  *
  * This file is part of EasyDiff.app.
  *
@@ -25,6 +25,7 @@
 #import <AppKit/AppKit.h>
 #import "AppController.h"
 #import "DiffWindowController.h"
+#import "DiffFileChooser.h"
 
 #include <math.h>
 
@@ -47,6 +48,15 @@
   cvsExecPath = str;
 }
 
+- (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
+{
+  if ([filenames count] == 2)
+    {
+      [diffFileChooser showWindow:self];
+      [diffFileChooser setLeftFileName:[filenames objectAtIndex:0]];
+      [diffFileChooser setRightFileName:[filenames objectAtIndex:1]];
+    }
+}
 
 - (IBAction) compareFileToCVS: (id)sender
 {
