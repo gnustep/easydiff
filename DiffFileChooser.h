@@ -1,7 +1,7 @@
 /*
  * DiffFileChooser.h
  *
- * Copyright (c) 2011, GNUstep Project
+ * Copyright (c) 2011-2012, GNUstep Project
  *
  * Author:  Wolfgang Lux <wolfgang.lux@gmail.com>
  * Date: March 2011
@@ -46,6 +46,8 @@
 
 - (NSString *)leftFileName;
 - (NSString *)rightFileName;
+- (void)setLeftFileName:(NSString *)fileName;
+- (void)setRightFileName:(NSString *)fileName;
 
 - (IBAction)showWindow: (id)sender;
 - (IBAction)compare: (id)sender;

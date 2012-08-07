@@ -1,9 +1,10 @@
 /*
  * DiffFileChooser.m
  *
- * Copyright (c) 2011, GNUstep Project
+ * Copyright (c) 2011-2012, GNUstep Project
  *
  * Author:  Wolfgang Lux <wolfgang.lux@gmail.com>
+ *	    Riccardo Mottola <rm@gnu.org>
  * Date: March 2011
  * 
  * This file is part of EasyDiff.app.
@@ -86,6 +87,22 @@
 - (NSString *)rightFileName
 {
   return [rightIcon fileName];
+}
+
+- (void)setLeftFileName:(NSString *)fileName
+{
+  [leftPath setStringValue: fileName];
+  [[NSNotificationCenter defaultCenter]
+        postNotificationName: NSControlTextDidChangeNotification
+                      object: leftPath];
+}
+
+- (void)setRightFileName:(NSString *)fileName
+{
+  [rightPath setStringValue: fileName];
+  [[NSNotificationCenter defaultCenter]
+        postNotificationName: NSControlTextDidChangeNotification
+                      object: rightPath];
 }
 
 - (IBAction)showWindow: (id)sender
@@ -193,7 +210,7 @@
 
 - (BOOL)validateUserInterfaceItem: (id<NSValidatedUserInterfaceItem>)item
 {
-  // validate -compareFiles: action iff both paths are files
+  // validate -compareFiles: action if both paths are files
   if (sel_isEqual([item action], @selector(compareFiles:)))
     {
       BOOL isDir;
