@@ -13,7 +13,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 #
 # Application
 #
-VERSION = 0.4.0
+VERSION = 0.4.1
 PACKAGE_NAME = EasyDiff
 APP_NAME = EasyDiff
 EasyDiff_APPLICATION_ICON = 
