@@ -43,8 +43,8 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 				   file2]);
 
   {
-    unsigned int length = [leftString length];
-    unsigned int end;
+    NSUInteger length = [leftString length];
+    NSUInteger end;
     leftLineRangesArray = [[NSMutableArray alloc] init];
     [leftLineRangesArray addObject:
 			   [NSNumber numberWithInt: -1]];
@@ -70,8 +70,8 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
   }
 
   {
-    unsigned int length = [rightString length];
-    unsigned int end;
+    NSUInteger length = [rightString length];
+    NSUInteger end;
     rightLineRangesArray = [[NSMutableArray alloc] init];
     [rightLineRangesArray addObject:
 			   [NSNumber numberWithInt: -1]];
