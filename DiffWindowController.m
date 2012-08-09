@@ -64,20 +64,21 @@
   /* Switch filenames so the CVS version is on the left */
   [self _initWithFilename: filename2
 	andFilename: filename1];
+  if (self)
+    {
+      tempFilename = filename2;
 
-  tempFilename = filename2;
-
-  [[self window] setTitle:
-		   [NSString 
-		     stringWithFormat: 
-		       @"Comparing %@ to the CVS version",
-		     [filename1 lastPathComponent]]];
+      [[self window] setTitle:
+		       [NSString 
+			 stringWithFormat: 
+			   @"Comparing %@ to the CVS version",
+			 [filename1 lastPathComponent]]];
 		   
-  [[self window] makeKeyAndOrderFront: self];
+      [[self window] makeKeyAndOrderFront: self];
 
-  leftFileName = nil;
-  rightFileName = RETAIN(filename1);
-
+      leftFileName = nil;
+      rightFileName = RETAIN(filename1);
+    }
   return self;
 }
 
@@ -87,29 +88,26 @@
   [self _initWithFilename: filename1
 	andFilename: filename2];
 
-  tempFilename = nil;
+  if (self)
+    {
+      tempFilename = nil;
 
-  [[self window] setTitle:
-		   [NSString 
-		     stringWithFormat: 
-		       @"Comparing %@ to %@",
-		     [filename1 lastPathComponent],
-		     [filename2 lastPathComponent]]];
+      [[self window] setTitle:
+		       [NSString 
+			 stringWithFormat: 
+			   @"Comparing %@ to %@",
+			 [filename1 lastPathComponent],
+			 [filename2 lastPathComponent]]];
 
 
-  [[self window] makeKeyAndOrderFront: self];
+      [[self window] makeKeyAndOrderFront: self];
 
-  /*
-  [NSApp addWindowsItem: [self window]
-	 title: [[self window] title]
-	 filename: NO];
-  */
 
-  leftFileName = RETAIN(filename1);
-  rightFileName = RETAIN(filename2);
+      leftFileName = RETAIN(filename1);
+      rightFileName = RETAIN(filename2);
 
-  NSDebugLog(@"windowsMenu %@", [NSApp windowsMenu]);
-
+      NSDebugLog(@"windowsMenu %@", [NSApp windowsMenu]);
+    }
   return self;
 }
 
@@ -117,69 +115,70 @@
 - (id) _initWithFilename: (NSString *) filename1
 	     andFilename: (NSString *) filename2
 {
-  [self initWithWindowNibName: @"window"];
+  self = [super initWithWindowNibName: @"window"];
 
-  [self window];
+  if (self)
+    {
+      [self window];
 
 
-  NSDebugLog(@"%@", scroller);
-  [scroller setArrowsPosition: NSScrollerArrowsMaxEnd];
-  [scroller setFloatValue:0.5 knobProportion:0.2];
-  [scroller setEnabled: YES];
+      NSDebugLog(@"%@", scroller);
+      [scroller setArrowsPosition: NSScrollerArrowsMaxEnd];
+      [scroller setFloatValue:0.5 knobProportion:0.2];
+      [scroller setEnabled: YES];
 
-  diffWrapper = [[DiffWrapper alloc] initWithFilename: filename1
-				     andFilename: filename2];
+      diffWrapper = [[DiffWrapper alloc] initWithFilename: filename1
+					      andFilename: filename2];
 
-  [diffWrapper compare];
+      [diffWrapper compare];
 
-  leftChanges = [diffWrapper leftChanges];
-  rightChanges = [diffWrapper rightChanges];
-  //  tasktest(filename1, filename2, &leftChanges, &rightChanges);
+      leftChanges = [diffWrapper leftChanges];
+      rightChanges = [diffWrapper rightChanges];
+      //  tasktest(filename1, filename2, &leftChanges, &rightChanges);
 
-  RETAIN(leftChanges);
-  RETAIN(rightChanges);
+      RETAIN(leftChanges);
+      RETAIN(rightChanges);
 
-  {
-    NSString *string1;
-    NSString *string2;
+      {
+	NSString *string1;
+	NSString *string2;
 
-    string1 = [NSString stringWithContentsOfFile: 
-			 filename1];
-    string2 = [NSString stringWithContentsOfFile: 
-			 filename2];
+	string1 = [NSString stringWithContentsOfFile: 
+			      filename1];
+	string2 = [NSString stringWithContentsOfFile: 
+			      filename2];
 
     
-    [diffView setLeftString: string1];
-    [diffView setRightString: string2];
+	[diffView setLeftString: string1];
+	[diffView setRightString: string2];
 
-    [diffView setLeftChanges: leftChanges
-	      andRightChanges: rightChanges];
+	[diffView setLeftChanges: leftChanges
+		 andRightChanges: rightChanges];
 
-    [diffView setLeftLineRanges: [diffWrapper leftLineRanges]
-	      andRightLineRanges: [diffWrapper rightLineRanges]];
+	[diffView setLeftLineRanges: [diffWrapper leftLineRanges]
+		 andRightLineRanges: [diffWrapper rightLineRanges]];
 
-    [scroller setFloatValue: 0.
-	      knobProportion: 
-		([diffView frame].size.height /
-		 [diffView mergeFileHeight])];
+	[scroller setFloatValue: 0.
+		 knobProportion: 
+		    ([diffView frame].size.height /
+		     [diffView mergeFileHeight])];
 
-    [diffView tile];
+	[diffView tile];
 
-    [diffView setPostsFrameChangedNotifications: YES];
-    [[NSNotificationCenter defaultCenter]
-      addObserver: self
-      selector: @selector(diffViewFrameDidChange:)
-      name: NSViewFrameDidChangeNotification
-      object: diffView];
+	[diffView setPostsFrameChangedNotifications: YES];
+	[[NSNotificationCenter defaultCenter]
+	  addObserver: self
+	     selector: @selector(diffViewFrameDidChange:)
+		 name: NSViewFrameDidChangeNotification
+	       object: diffView];
 
-    choices = (int *) calloc([leftChanges count], sizeof(int));
+	choices = (int *) calloc([leftChanges count], sizeof(int));
 
-  }
+      }
 
-  //  NSLog(@"gonna orderFront %@",[self window]);
-  [self diffViewFrameDidChange: nil];
-  //  [[self window] orderFrontRegardless];
+      [self diffViewFrameDidChange: nil];
   
+    }
   return self;
   
 }

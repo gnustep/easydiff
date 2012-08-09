@@ -31,72 +31,76 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 - (id) initWithFilename: (NSString *) file1
 	    andFilename: (NSString *) file2
 {
-  filename1 = RETAIN(file1);
-  filename2 = RETAIN(file2);
+  self = [super init];
+  if (self)
+    {
+      filename1 = RETAIN(file1);
+      filename2 = RETAIN(file2);
 
-  leftChanges = nil;
-  rightChanges = nil;
+      leftChanges = nil;
+      rightChanges = nil;
 
-  leftString = RETAIN([NSString stringWithContentsOfFile: 
-				  file1]);
-  rightString = RETAIN([NSString stringWithContentsOfFile: 
-				   file2]);
+      leftString = RETAIN([NSString stringWithContentsOfFile: 
+				      file1]);
+      rightString = RETAIN([NSString stringWithContentsOfFile: 
+				       file2]);
 
-  {
-    NSUInteger length = [leftString length];
-    NSUInteger end;
-    leftLineRangesArray = [[NSMutableArray alloc] init];
-    [leftLineRangesArray addObject:
-			   [NSNumber numberWithInt: -1]];
-
-    end = 0;
-    while ((end < length - 1) && (length != 0))
       {
-	[leftString getLineStart: NULL
-		    end: NULL
-		    contentsEnd: &end
-		    forRange: NSMakeRange(end + 1, 0)];
-	if (end >= length)
+	NSUInteger length = [leftString length];
+	NSUInteger end;
+
+	leftLineRangesArray = [[NSMutableArray alloc] init];
+	[leftLineRangesArray addObject:
+	       [NSNumber numberWithInt: -1]];
+
+	end = 0;
+	while ((end < length - 1) && (length != 0))
 	  {
-	    [leftLineRangesArray addObject: 
-				   [NSNumber numberWithInt: length - 1]];
-	  }
-	else
-	  {
-	    [leftLineRangesArray addObject: 
-				   [NSNumber numberWithInt: end]];
+	    [leftString getLineStart: NULL
+				 end: NULL
+			 contentsEnd: &end
+			    forRange: NSMakeRange(end + 1, 0)];
+	    if (end >= length)
+	      {
+		[leftLineRangesArray addObject: 
+		       [NSNumber numberWithInt: length - 1]];
+	      }
+	    else
+	      {
+		[leftLineRangesArray addObject: 
+		       [NSNumber numberWithInt: end]];
+	      }
 	  }
       }
-  }
 
-  {
-    NSUInteger length = [rightString length];
-    NSUInteger end;
-    rightLineRangesArray = [[NSMutableArray alloc] init];
-    [rightLineRangesArray addObject:
-			   [NSNumber numberWithInt: -1]];
-
-    end = 0;
-    while ((end < length - 1) && (length != 0))
       {
-	[rightString getLineStart: NULL
-		    end: NULL
-		    contentsEnd: &end
-		    forRange: NSMakeRange(end + 1, 0)];
-	if (end >= length)
+	NSUInteger length = [rightString length];
+	NSUInteger end;
+	rightLineRangesArray = [[NSMutableArray alloc] init];
+	[rightLineRangesArray addObject:
+		[NSNumber numberWithInt: -1]];
+
+	end = 0;
+	while ((end < length - 1) && (length != 0))
 	  {
-	    [rightLineRangesArray addObject: 
-				   [NSNumber numberWithInt: length - 1]];
-	  }
-	else
-	  {
-	    [rightLineRangesArray addObject: 
-				   [NSNumber numberWithInt: end]];
+	    [rightString getLineStart: NULL
+				  end: NULL
+			  contentsEnd: &end
+			     forRange: NSMakeRange(end + 1, 0)];
+	    if (end >= length)
+	      {
+		[rightLineRangesArray addObject: 
+			[NSNumber numberWithInt: length - 1]];
+	      }
+	    else
+	      {
+		[rightLineRangesArray addObject: 
+			[NSNumber numberWithInt: end]];
+	      }
 	  }
       }
-  }
 
-
+    }
 
   return self;
 }

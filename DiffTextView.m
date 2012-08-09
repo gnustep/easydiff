@@ -2,6 +2,7 @@
  * DiffTextView.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ *               2012 The GNUstep project
  *
  * This file is part of EasyDiff.app.
  *
@@ -25,26 +26,25 @@
 #import "DiffTextView.h"
 #include <math.h>
 
-//static NSRect rectsToFill[500];
-
 @implementation DiffTextView
 
 - (id) initWithFrame: (NSRect) aRect
 {
-  [super initWithFrame: aRect];
-
-  lineRangesArray = nil;
-  blockCharacterRangesArray = [[NSMutableArray alloc] init];
-  blockRectsArray = NSZoneMalloc([self zone], sizeof(NSRect)*10);
-  blockRectsArraySize = 10;
-  blockRectsArrayFirstFree = 0;
-  lastLine = 0;
-  firstCharOfLastLine = 0;
-
-  [self setEditable: NO];
-  [self setSelectable: YES];
-  [self setDrawsBackground: NO];
-
+  self = [super initWithFrame: aRect];
+  if (self)
+    {
+      lineRangesArray = nil;
+      blockCharacterRangesArray = [[NSMutableArray alloc] init];
+      blockRectsArray = NSZoneMalloc([self zone], sizeof(NSRect)*10);
+      blockRectsArraySize = 10;
+      blockRectsArrayFirstFree = 0;
+      lastLine = 0;
+      firstCharOfLastLine = 0;
+      
+      [self setEditable: NO];
+      [self setSelectable: YES];
+      [self setDrawsBackground: NO];
+    }
   return self;
 }
 

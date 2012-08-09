@@ -45,102 +45,103 @@
 
 - (id) initWithFrame: (NSRect) aRect
 {
-  [super initWithFrame: aRect];
+  self = [super initWithFrame: aRect];
+  if (self)
+    {
 
+      middleView = [[DiffMiddleView alloc] initWithFrame:NSZeroRect];
 
-  middleView = [[DiffMiddleView alloc] initWithFrame:NSZeroRect];
-
-  {
-    leftView = [[DiffScrollView alloc] 
-		    initWithFrame: NSMakeRect(0, 0, 1000, 100)];
-    [leftView setHasHorizontalScroller: YES];
-    [leftView setHasVerticalScroller: NO];
-  }
-  {
-    rightView = [[DiffScrollView alloc] 
-		    initWithFrame: NSMakeRect(0, 0, 1000, 100)];
-    [rightView setHasHorizontalScroller: YES];
-    [rightView setHasVerticalScroller: NO];
-  }
- 
-  {
-    leftTextView = [[DiffTextView alloc]
-		 initWithFrame: NSMakeRect(0, 0, 1000, 100)];
-    
-    [leftTextView setVerticallyResizable: YES];
-    [leftTextView setHorizontallyResizable: NO];
-    [[leftTextView textContainer] setContainerSize: NSMakeSize(5000, 1e7)];
-    
-    [[leftTextView textContainer] setHeightTracksTextView: NO];
-    [[leftTextView textContainer] setWidthTracksTextView: NO];
-    [leftTextView setString: @" "];
-    [leftTextView setFont: [NSFont userFixedPitchFontOfSize: 12]];
-  }
-
-
-  {
-    rightTextView = [[DiffTextView alloc]
+      {
+	leftView = [[DiffScrollView alloc] 
+		     initWithFrame: NSMakeRect(0, 0, 1000, 100)];
+	[leftView setHasHorizontalScroller: YES];
+	[leftView setHasVerticalScroller: NO];
+      }
+      {
+	rightView = [[DiffScrollView alloc] 
 		      initWithFrame: NSMakeRect(0, 0, 1000, 100)];
+	[rightView setHasHorizontalScroller: YES];
+	[rightView setHasVerticalScroller: NO];
+      }
+ 
+      {
+	leftTextView = [[DiffTextView alloc]
+			 initWithFrame: NSMakeRect(0, 0, 1000, 100)];
     
-    [rightTextView setVerticallyResizable: YES];
-    [rightTextView setHorizontallyResizable: NO];
-    [[rightTextView textContainer] setContainerSize: NSMakeSize(5000, 1e7)];
+	[leftTextView setVerticallyResizable: YES];
+	[leftTextView setHorizontallyResizable: NO];
+	[[leftTextView textContainer] setContainerSize: NSMakeSize(5000, 1e7)];
     
-    [[rightTextView textContainer] setHeightTracksTextView: NO];
-    [[rightTextView textContainer] setWidthTracksTextView: NO];
-    [rightTextView setString: @" "];
-    [rightTextView setFont: [NSFont userFixedPitchFontOfSize: 12]];
-  }
-
-  {
-    [leftView setDocumentView: leftTextView];
-    RELEASE(leftTextView);
-    [[leftView contentView] setPostsBoundsChangedNotifications: YES];
-    [[leftView contentView] setPostsFrameChangedNotifications: YES];
-  }
-  {
-    [rightView setDocumentView: rightTextView];
-    RELEASE(rightTextView);
-    [[rightView contentView] setPostsBoundsChangedNotifications: YES];
-    [[rightView contentView] setPostsFrameChangedNotifications: YES];
-  }
+	[[leftTextView textContainer] setHeightTracksTextView: NO];
+	[[leftTextView textContainer] setWidthTracksTextView: NO];
+	[leftTextView setString: @" "];
+	[leftTextView setFont: [NSFont userFixedPitchFontOfSize: 12]];
+      }
 
 
-  [[NSNotificationCenter defaultCenter]
-    addObserver: self
-    selector: @selector(leftViewBoundsDidChange:)
-    name: NSViewBoundsDidChangeNotification
-    object: [leftView contentView]];
+      {
+	rightTextView = [[DiffTextView alloc]
+			  initWithFrame: NSMakeRect(0, 0, 1000, 100)];
+    
+	[rightTextView setVerticallyResizable: YES];
+	[rightTextView setHorizontallyResizable: NO];
+	[[rightTextView textContainer] setContainerSize: NSMakeSize(5000, 1e7)];
+    
+	[[rightTextView textContainer] setHeightTracksTextView: NO];
+	[[rightTextView textContainer] setWidthTracksTextView: NO];
+	[rightTextView setString: @" "];
+	[rightTextView setFont: [NSFont userFixedPitchFontOfSize: 12]];
+      }
 
-  [[NSNotificationCenter defaultCenter]
-    addObserver: leftTextView
-    selector: @selector(superviewFrameChanged:)
-    name: NSViewFrameDidChangeNotification
-    object: [leftView contentView]];
-
-  [[NSNotificationCenter defaultCenter]
-    addObserver: self
-    selector: @selector(rightViewBoundsDidChange:)
-    name: NSViewBoundsDidChangeNotification
-    object: [rightView contentView]];
-
-  [[NSNotificationCenter defaultCenter]
-    addObserver: rightTextView
-    selector: @selector(superviewFrameChanged:)
-    name: NSViewFrameDidChangeNotification
-    object: [rightView contentView]];
+      {
+	[leftView setDocumentView: leftTextView];
+	RELEASE(leftTextView);
+	[[leftView contentView] setPostsBoundsChangedNotifications: YES];
+	[[leftView contentView] setPostsFrameChangedNotifications: YES];
+      }
+      {
+	[rightView setDocumentView: rightTextView];
+	RELEASE(rightTextView);
+	[[rightView contentView] setPostsBoundsChangedNotifications: YES];
+	[[rightView contentView] setPostsFrameChangedNotifications: YES];
+      }
 
 
-  [middleView setLeftView: leftTextView];
-  [middleView setRightView: rightTextView];
-  [self addSubview: middleView];
-  [self addSubview: rightView];
-  [self addSubview: leftView];
+      [[NSNotificationCenter defaultCenter]
+	addObserver: self
+	   selector: @selector(leftViewBoundsDidChange:)
+	       name: NSViewBoundsDidChangeNotification
+	     object: [leftView contentView]];
 
-  RELEASE(middleView);
-  RELEASE(rightView);
-  RELEASE(leftView);
+      [[NSNotificationCenter defaultCenter]
+	addObserver: leftTextView
+	   selector: @selector(superviewFrameChanged:)
+	       name: NSViewFrameDidChangeNotification
+	     object: [leftView contentView]];
 
+      [[NSNotificationCenter defaultCenter]
+	addObserver: self
+	   selector: @selector(rightViewBoundsDidChange:)
+	       name: NSViewBoundsDidChangeNotification
+	     object: [rightView contentView]];
+
+      [[NSNotificationCenter defaultCenter]
+	addObserver: rightTextView
+	   selector: @selector(superviewFrameChanged:)
+	       name: NSViewFrameDidChangeNotification
+	     object: [rightView contentView]];
+
+
+      [middleView setLeftView: leftTextView];
+      [middleView setRightView: rightTextView];
+      [self addSubview: middleView];
+      [self addSubview: rightView];
+      [self addSubview: leftView];
+
+      RELEASE(middleView);
+      RELEASE(rightView);
+      RELEASE(leftView);
+    }
   return self;
 }
 
