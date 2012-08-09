@@ -36,4 +36,4 @@
 
 @end
 
-APPKIT_EXPORT NSString *FileIconViewFileNameDidChangeNotification;
+extern NSString *FileIconViewFileNameDidChangeNotification;

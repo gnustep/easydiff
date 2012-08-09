@@ -1,3 +1,8 @@
+2012-08-08 Riccardo Mottola <rm@gnu.org>
+
+	* FileIconView.h:
+	use extern instead of APPKIT_EXPORT
+	
 2012-08-08 Sebastian Reitenbach <sebastia@l00-bugdead-prods.de>
 
 	* DiffWrapper.m

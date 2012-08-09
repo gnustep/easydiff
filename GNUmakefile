@@ -37,7 +37,9 @@ AppController.h \
 DiffTextView.h \
 DiffMiddleView.h \
 DiffView.h \
+DiffWrapper.h \
 DiffWindowController.h \
+DiffScroller.h\
 DiffFileChooser.h \
 FileIconView.h
 
