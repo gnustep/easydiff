@@ -54,7 +54,7 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 	       [NSNumber numberWithInt: -1]];
 
 	end = 0;
-	while ((end < length - 1) && (length != 0))
+	while ((length > 0) && (end < length - 1))
 	  {
 	    [leftString getLineStart: NULL
 				 end: NULL
@@ -63,12 +63,12 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 	    if (end >= length)
 	      {
 		[leftLineRangesArray addObject: 
-		       [NSNumber numberWithInt: length - 1]];
+		       [NSNumber numberWithUnsignedInt: length - 1]];
 	      }
 	    else
 	      {
 		[leftLineRangesArray addObject: 
-		       [NSNumber numberWithInt: end]];
+		       [NSNumber numberWithUnsignedInt: end]];
 	      }
 	  }
       }
@@ -81,7 +81,7 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 		[NSNumber numberWithInt: -1]];
 
 	end = 0;
-	while ((end < length - 1) && (length != 0))
+	while ((length > 0) && (end < length - 1))
 	  {
 	    [rightString getLineStart: NULL
 				  end: NULL
@@ -90,12 +90,12 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 	    if (end >= length)
 	      {
 		[rightLineRangesArray addObject: 
-			[NSNumber numberWithInt: length - 1]];
+			[NSNumber numberWithUnsignedInt: length - 1]];
 	      }
 	    else
 	      {
 		[rightLineRangesArray addObject: 
-			[NSNumber numberWithInt: end]];
+			[NSNumber numberWithUnsignedInt: end]];
 	      }
 	  }
       }
