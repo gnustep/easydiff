@@ -1,3 +1,8 @@
+2012-08-10 Riccardo Mottola <rm@gnu.org>
+
+	* DiffWrapper.m:
+	Rewrite code to work with multi-char line endings.
+
 2012-08-09 Riccardo Mottola <rm@gnu.org>
 
 	* DiffWrapper.m:

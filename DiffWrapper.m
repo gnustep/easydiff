@@ -48,58 +48,45 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
       {
 	NSUInteger length = [leftString length];
 	NSUInteger end;
+	NSUInteger contEnd;
 
 	leftLineRangesArray = [[NSMutableArray alloc] init];
 	[leftLineRangesArray addObject:
 	       [NSNumber numberWithInt: -1]];
 
+	contEnd = 0;
 	end = 0;
-	while ((length > 0) && (end < length - 1))
+	while ((length > 0) && (contEnd < length))
 	  {
 	    [leftString getLineStart: NULL
-				 end: NULL
-			 contentsEnd: &end
-			    forRange: NSMakeRange(end + 1, 0)];
-	    if (end >= length)
-	      {
-		[leftLineRangesArray addObject: 
-		       [NSNumber numberWithUnsignedInt: length - 1]];
-	      }
-	    else
-	      {
-		[leftLineRangesArray addObject: 
-		       [NSNumber numberWithUnsignedInt: end]];
-	      }
+				 end: &end
+			 contentsEnd: &contEnd
+			    forRange: NSMakeRange(end, 0)];
+	    [leftLineRangesArray addObject: 
+				   [NSNumber numberWithUnsignedInt: end]];
 	  }
       }
 
       {
 	NSUInteger length = [rightString length];
 	NSUInteger end;
+	NSUInteger contEnd;
 	rightLineRangesArray = [[NSMutableArray alloc] init];
 	[rightLineRangesArray addObject:
 		[NSNumber numberWithInt: -1]];
-
+	
+	contEnd = 0;
 	end = 0;
-	while ((length > 0) && (end < length - 1))
+	while ((length > 0) && (contEnd < length))
 	  {
 	    [rightString getLineStart: NULL
-				  end: NULL
-			  contentsEnd: &end
-			     forRange: NSMakeRange(end + 1, 0)];
-	    if (end >= length)
-	      {
-		[rightLineRangesArray addObject: 
-			[NSNumber numberWithUnsignedInt: length - 1]];
-	      }
-	    else
-	      {
-		[rightLineRangesArray addObject: 
-			[NSNumber numberWithUnsignedInt: end]];
-	      }
+				  end: &end
+			  contentsEnd: &contEnd
+			     forRange: NSMakeRange(end, 0)];
+	    [rightLineRangesArray addObject: 
+				    [NSNumber numberWithUnsignedInt: end]];
 	  }
       }
-
     }
 
   return self;
