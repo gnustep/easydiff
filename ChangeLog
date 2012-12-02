@@ -1,5 +1,12 @@
 2012-12-02  Wolfgang Lux  <wolfgang.lux@gmail.com>
 
+	* DiffWindowController.m (_patchMutableString:): Fix off by one
+	errors.
+	* DiffWrapper.m (initWithFilename:andFilename:): Fix
+	initialization of line range arrays.
+
+2012-12-02  Wolfgang Lux  <wolfgang.lux@gmail.com>
+
 	* AppController.h:
 	* AppController.m:
 	* DiffWindowController.m:

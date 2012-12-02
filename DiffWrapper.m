@@ -24,7 +24,8 @@
 
 #import "DiffWrapper.h"
 
-void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2);
+void tasktest(NSString *file1, NSString *file2,
+	      NSMutableArray **r1, NSMutableArray **r2);
 
 
 @implementation DiffWrapper
@@ -40,27 +41,22 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
       leftChanges = nil;
       rightChanges = nil;
 
-      leftString = RETAIN([NSString stringWithContentsOfFile: 
-				      file1]);
-      rightString = RETAIN([NSString stringWithContentsOfFile: 
-				       file2]);
+      leftString = RETAIN([NSString stringWithContentsOfFile: file1]);
+      rightString = RETAIN([NSString stringWithContentsOfFile: file2]);
 
       {
 	NSUInteger length = [leftString length];
 	NSUInteger end;
-	NSUInteger contEnd;
 
 	leftLineRangesArray = [[NSMutableArray alloc] init];
-	[leftLineRangesArray addObject:
-	       [NSNumber numberWithInt: -1]];
+	[leftLineRangesArray addObject: [NSNumber numberWithInt: 0]];
 
-	contEnd = 0;
 	end = 0;
-	while ((length > 0) && (contEnd < length))
+	while (end < length)
 	  {
 	    [leftString getLineStart: NULL
 				 end: &end
-			 contentsEnd: &contEnd
+			 contentsEnd: NULL
 			    forRange: NSMakeRange(end, 0)];
 	    [leftLineRangesArray addObject: 
 				   [NSNumber numberWithUnsignedInt: end]];
@@ -70,18 +66,16 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
       {
 	NSUInteger length = [rightString length];
 	NSUInteger end;
-	NSUInteger contEnd;
+
 	rightLineRangesArray = [[NSMutableArray alloc] init];
-	[rightLineRangesArray addObject:
-		[NSNumber numberWithInt: -1]];
-	
-	contEnd = 0;
+	[rightLineRangesArray addObject: [NSNumber numberWithInt: 0]];
+
 	end = 0;
-	while ((length > 0) && (contEnd < length))
+	while (end < length)
 	  {
 	    [rightString getLineStart: NULL
 				  end: &end
-			  contentsEnd: &contEnd
+			  contentsEnd: NULL
 			     forRange: NSMakeRange(end, 0)];
 	    [rightLineRangesArray addObject: 
 				    [NSNumber numberWithUnsignedInt: end]];
@@ -118,8 +112,8 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 - (void) compare
 {
   
-  TEST_RELEASE(rightChanges);
-  TEST_RELEASE(leftChanges);
+  RELEASE(rightChanges);
+  RELEASE(leftChanges);
 
   tasktest(filename1, filename2, &leftChanges, &rightChanges);
 }
@@ -151,7 +145,8 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 }
 @end
 
-void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2)
+void tasktest(NSString *file1, NSString *file2,
+	      NSMutableArray **r1, NSMutableArray **r2)
 {
   NSTask *taskDiff, *taskGrep;
   NSPipe *pipe1, *pipe2;
@@ -205,18 +200,15 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
     NSCharacterSet *cs_type = 
       [NSCharacterSet characterSetWithCharactersInString: @"adc"];
 
-    leftChanges = [[NSMutableArray alloc]
-		    initWithCapacity: 2 * count];
-    rightChanges = [[NSMutableArray alloc]
-		     initWithCapacity: 2 * count];
+    leftChanges = [[NSMutableArray alloc] initWithCapacity: 2 * count];
+    rightChanges = [[NSMutableArray alloc] initWithCapacity: 2 * count];
 
     for (i = 0; i < count - 1; i++)
       {
 	scanner = [NSScanner scannerWithString: 
 			       [resultsArray objectAtIndex: i]];
 	[scanner scanInt: &r1a];
-	if ([scanner scanCharactersFromSet: cs_sep
-		     intoString: NULL])
+	if ([scanner scanCharactersFromSet: cs_sep intoString: NULL])
 	  {
 	    [scanner scanInt: &r1b];
 	  }
@@ -225,12 +217,10 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 	    r1b = -1;
 	  }
 	
-	[scanner scanCharactersFromSet: cs_type
-		 intoString: &operation];
+	[scanner scanCharactersFromSet: cs_type intoString: &operation];
 	  
 	[scanner scanInt: &r2a];
-	if ([scanner scanCharactersFromSet: cs_sep
-		     intoString: NULL])
+	if ([scanner scanCharactersFromSet: cs_sep intoString: NULL])
 	  {
 	    [scanner scanInt: &r2b];
 	  }
@@ -273,14 +263,10 @@ void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableAr
 	    r2b = r2a;
 	  }
 
-	[leftChanges addObject: 
-		       [NSNumber numberWithInt: r1a-1]];
-	[leftChanges addObject: 
-		       [NSNumber numberWithInt: r1b-1]];
-	[rightChanges addObject: 
-			[NSNumber numberWithInt: r2a-1]];
-	[rightChanges addObject: 
-			[NSNumber numberWithInt: r2b-1]];
+	[leftChanges addObject: [NSNumber numberWithInt: r1a-1]];
+	[leftChanges addObject: [NSNumber numberWithInt: r1b-1]];
+	[rightChanges addObject: [NSNumber numberWithInt: r2a-1]];
+	[rightChanges addObject: [NSNumber numberWithInt: r2b-1]];
       }
   }
   //  NSLog(@"%@", [leftChanges description]);

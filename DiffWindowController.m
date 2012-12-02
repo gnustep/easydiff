@@ -28,7 +28,8 @@
 #import "DiffWindowController.h"
 #import "DiffWrapper.h"
 
-//extern void tasktest(NSString *file1, NSString *file2, NSMutableArray **r1, NSMutableArray **r2);
+//extern void tasktest(NSString *file1, NSString *file2,
+//                     NSMutableArray **r1, NSMutableArray **r2);
 
 
 @interface PatchData : NSObject
@@ -143,10 +144,8 @@
 	NSString *string1;
 	NSString *string2;
 
-	string1 = [NSString stringWithContentsOfFile: 
-			      filename1];
-	string2 = [NSString stringWithContentsOfFile: 
-			      filename2];
+	string1 = [NSString stringWithContentsOfFile: filename1];
+	string2 = [NSString stringWithContentsOfFile: filename2];
 
     
 	[diffView setLeftString: string1];
@@ -496,23 +495,18 @@
     }
   linesCount = [flr count] - 1;
 
-  for ( i = 0; i < [fromChanges count] - 1; i += 2 )
+  for (i = 0; i < [fromChanges count] - 1; i += 2)
     {
       p = [[PatchData alloc] init];
-      p->patchString = (NSMutableString*)[NSMutableString string];
+      p->patchString = [NSMutableString string];
 
       if (choices[i/2] * direction > 0)
 	{
-	  p->start = [[fromChanges objectAtIndex: i] 
-			   intValue];
-	  p->end = [[fromChanges objectAtIndex: i + 1] 
-			 intValue];
-	  toStart = [[toChanges objectAtIndex: i] 
-			 intValue];
-	  toEnd = [[toChanges objectAtIndex: i + 1] 
- 		       intValue];
-	  p->lineDifference = (toEnd - toStart) - 
-	    (p->end - p->start);
+	  p->start = [[fromChanges objectAtIndex: i] intValue];
+	  p->end = [[fromChanges objectAtIndex: i + 1] intValue];
+	  toStart = [[toChanges objectAtIndex: i] intValue];
+	  toEnd = [[toChanges objectAtIndex: i + 1] intValue];
+	  p->lineDifference = (toEnd - toStart) - (p->end - p->start);
 
 	  for (j = p->start; j < p->end; j++ )
 	    {
@@ -520,7 +514,7 @@
 	      [p->patchString appendString:[fstr 
 					     substringWithRange: 
 					       NSMakeRange
-					     ([[flr objectAtIndex: j] intValue] + 1,
+					     ([[flr objectAtIndex: j] intValue],
 					      [[flr objectAtIndex: j+1] intValue] -
 					      [[flr objectAtIndex: j] intValue])]];
 	    }
@@ -530,7 +524,7 @@
 	      [p->patchString appendString:[tstr
 					     substringWithRange: 
 					       NSMakeRange
-					     ([[tlr objectAtIndex: j] intValue] + 1,
+					     ([[tlr objectAtIndex: j] intValue],
 					      [[tlr objectAtIndex: j+1] intValue] -
 					      [[tlr objectAtIndex: j] intValue])]];
 	    }
@@ -542,10 +536,8 @@
 	}
       else if (choices[i/2] == 0)
 	{
-	  p->start = [[fromChanges objectAtIndex: i] 
-			   intValue];
-	  p->end = [[fromChanges objectAtIndex: i + 1] 
-			 intValue];
+	  p->start = [[fromChanges objectAtIndex: i] intValue];
+	  p->end = [[fromChanges objectAtIndex: i + 1] intValue];
 	  p->lineDifference = - (p->end - p->start);
 
 	  for (j = p->start; j < p->end; j++ )
@@ -554,7 +546,7 @@
 	      [p->patchString appendString:[fstr 
 					     substringWithRange: 
 					       NSMakeRange
-					     ([[flr objectAtIndex: j] intValue] + 1,
+					     ([[flr objectAtIndex: j] intValue],
 					      [[flr objectAtIndex: j+1] intValue] -
 					      [[flr objectAtIndex: j] intValue])]];
 	    }
@@ -574,7 +566,7 @@
   
   pp = nil;
 
-  while( i < count )
+  while (i < count)
     {
       p = [patchArray objectAtIndex: i];
 
@@ -587,14 +579,14 @@
 	      j = pp->end + 3;
 	      if (j >= linesCount)
 		j = linesCount;
-	      stringToInsert = (NSMutableString*)[NSMutableString string];
+	      stringToInsert = [NSMutableString string];
 	      for ( k = pp->end; k < j; k++ )
 		{
 		  [stringToInsert appendString: @" "];
 		  [stringToInsert appendString: [fstr 
 						  substringWithRange: 
 						    NSMakeRange
-						  ([[flr objectAtIndex: k] intValue] + 1,
+						  ([[flr objectAtIndex: k] intValue],
 						   [[flr objectAtIndex: k+1] intValue] -
 						   [[flr objectAtIndex: k] intValue])]];
 		}
@@ -612,14 +604,14 @@
 	    j = 0;
 	  pp = [[PatchData alloc] init];
 	  pp->patchString = p->patchString;
-	  stringToInsert = (NSMutableString*)[NSMutableString string];
+	  stringToInsert = [NSMutableString string];
 	  for ( k = j; k < p->start; k++ )
 	    {
 	      [stringToInsert appendString: @" "];
 	      [stringToInsert appendString: [fstr 
 					     substringWithRange: 
 					       NSMakeRange
-					     ([[flr objectAtIndex: k] intValue] + 1,
+					     ([[flr objectAtIndex: k] intValue],
 					      [[flr objectAtIndex: k+1] intValue] -
 					      [[flr objectAtIndex: k] intValue])]];
 	    }
@@ -633,14 +625,14 @@
       else
 	{
 	  // merge the two chunks
-	  stringToInsert = (NSMutableString*)[NSMutableString string];
+	  stringToInsert = [NSMutableString string];
 	  for ( k = pp->end; k < p->start; k++ )
 	    {
 	      [stringToInsert appendString: @" "];
 	      [stringToInsert appendString: [fstr 
 					     substringWithRange: 
 					       NSMakeRange
-					     ([[flr objectAtIndex: k] intValue] + 1,
+					     ([[flr objectAtIndex: k] intValue],
 					      [[flr objectAtIndex: k+1] intValue] -
 					      [[flr objectAtIndex: k] intValue])]];
 	    }
@@ -658,14 +650,14 @@
       j = pp->end + 3;
       if (j >= linesCount)
 	j = linesCount;
-      stringToInsert = (NSMutableString*)[NSMutableString string];
+      stringToInsert = [NSMutableString string];
       for ( k = pp->end; k < j; k++ )
 	{
 	  [stringToInsert appendString: @" "];
 	  [stringToInsert appendString: [fstr 
 					  substringWithRange: 
 					    NSMakeRange
-					  ([[flr objectAtIndex: k] intValue] + 1,
+					  ([[flr objectAtIndex: k] intValue],
 					   [[flr objectAtIndex: k+1] intValue] -
 					   [[flr objectAtIndex: k] intValue])]];
 	}
@@ -678,8 +670,7 @@
 
 
   {
-    NSMutableString *patchFileString =
-      (NSMutableString*)[NSMutableString string];
+    NSMutableString *patchFileString = [NSMutableString string];
 
     int d = 0;
     for ( i = 0; i < [finalArray count]; i++ )
