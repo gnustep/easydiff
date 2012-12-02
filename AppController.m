@@ -31,6 +31,12 @@
 
 @implementation AppController
 
+- (void)dealloc
+{
+  [vcExecPaths release];
+  [super dealloc];
+}
+
 - (void) awakeFromNib
 {
 }
@@ -38,14 +44,46 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotif
 {
   NSUserDefaults *defaults;
-  NSString *str;
+  NSDictionary *dict;
+  Class stringClass;
 
   /* read the user preferences */
   defaults = [NSUserDefaults standardUserDefaults];
-  str = [defaults stringForKey:@"CvsExecutablePath"];
-  if (str == nil)
-    str = @"cvs";
-  cvsExecPath = str;
+  dict = [defaults dictionaryForKey: @"VcExecutablePaths"];
+  if (dict == nil)
+    {
+      vcExecPaths = [NSMutableDictionary new];
+    }
+  else
+    {
+      vcExecPaths = [dict mutableCopy];
+    }
+
+  stringClass = [NSString class];
+  if (![[vcExecPaths objectForKey: @"CVS"] isKindOfClass: stringClass])
+    {
+      // Backward compatibility
+      NSString *str = [defaults stringForKey: @"CvsExecutablePath"];
+      if (str == nil)
+	str = @"cvs";
+      [vcExecPaths setObject: str forKey: @"CVS"];
+    }
+  if (![[vcExecPaths objectForKey: @"Subversion"] isKindOfClass: stringClass])
+    {
+      [vcExecPaths setObject: @"svn" forKey: @"Subversion"];
+    }
+  if (![[vcExecPaths objectForKey: @"Git"] isKindOfClass: stringClass])
+    {
+      [vcExecPaths setObject: @"git" forKey: @"Git"];
+    }
+  if (![[vcExecPaths objectForKey: @"Mercurial"] isKindOfClass: stringClass])
+    {
+      [vcExecPaths setObject: @"hg" forKey: @"Mercurial"];
+    }
+  if (![[vcExecPaths objectForKey: @"Darcs"] isKindOfClass: stringClass])
+    {
+      [vcExecPaths setObject: @"darcs" forKey: @"Darcs"];
+    }
 }
 
 - (void)application:(NSApplication *)sender openFiles:(NSArray *)filenames
@@ -58,7 +96,43 @@
     }
 }
 
-- (IBAction) compareFileToCVS: (id)sender
+- (NSString *)getVCPath: (NSString *)fileName
+{
+  int i, n;
+  BOOL isDir;
+  NSString *vcDir, *dir;
+  NSFileManager *fm;
+  NSArray *vcs;
+
+  fm = [NSFileManager defaultManager];
+  dir = [fileName stringByDeletingLastPathComponent];
+
+  // CVS (and SVN up to version 1.6) saves a meta directory in every version
+  // controlled directory, hence we only need to look in the current directory
+  vcDir = @"CVS";
+  if ([fm fileExistsAtPath: vcDir isDirectory: &isDir] && isDir)
+    return vcDir;
+
+  // SVN (since version 1.7), git, Mercurial, and Darcs use a single meta
+  // directory at the root of of a version controlled tree, hence we may
+  // have to travel all the way up to the root to find that directory
+  vcs = [NSArray arrayWithObjects: @".svn", @".git", @".hg", @"_darcs", nil];
+  for (n = [[dir pathComponents] count]; n > 0; n--)
+    {
+      for (i = 0; i < [vcs count]; i++)
+	{
+	  vcDir = [dir stringByAppendingPathComponent: [vcs objectAtIndex: i]];
+	  if ([fm fileExistsAtPath: vcDir isDirectory: &isDir] && isDir)
+	    return vcDir;
+	}
+      dir = [dir stringByDeletingLastPathComponent];
+    }
+
+  // no VC directory found
+  return nil;
+}
+
+- (IBAction)compareFileToVC: (id)sender
 {
   NSOpenPanel *oPanel;
   NSString *filename1, *filename2;
@@ -83,7 +157,8 @@
     forKey:@"OpenDirectory"]; 
 
   {
-    NSTask *taskCVS = [[NSTask alloc] init];
+    NSTask *taskVC;
+    NSString *vcPath, *vcDir, *vcFile;
     NSFileHandle *fh;
     filename2 = [NSString stringWithFormat:@"%@/%d_%@_%@", 
 			  NSTemporaryDirectory(), 
@@ -94,22 +169,67 @@
 			      @"%j%H%M%S%F" timeZone:nil 
 			    locale:nil],
 			  [filename1 lastPathComponent]];
-    
-    [taskCVS setLaunchPath: cvsExecPath];
-    [taskCVS setCurrentDirectoryPath: path];
-    [taskCVS setArguments:
-	       [NSArray arrayWithObjects:
-			  @"update",
-			@"-p",
-			[filename1 lastPathComponent],
-			nil]];
+
+    // determine the version control system and the root of the version
+    // controlled tree
+    vcPath = [self getVCPath: filename1];
+    if (vcPath == nil)
+      {
+	NSRunAlertPanel(@"No VC system",
+			@"File %@ is not under version control",
+			@"OK", nil, nil, filename1);
+	return;
+      }
+    path = [vcPath stringByDeletingLastPathComponent];
+    vcFile = [filename1 substringFromIndex: [path length] + 1];
+
+    // set up the VC task
+    taskVC = [[NSTask alloc] init];
+    [taskVC setCurrentDirectoryPath: path];
+    vcDir = [vcPath lastPathComponent];
+    if ([vcDir isEqualToString: @"CVS"])
+      {
+	[taskVC setLaunchPath: [vcExecPaths objectForKey: @"CVS"]];
+	[taskVC setArguments:
+	  [NSArray arrayWithObjects: @"update", @"-p", vcFile, nil]];
+      }
+    else if ([vcDir isEqualToString: @".svn"])
+      {
+	[taskVC setLaunchPath: [vcExecPaths objectForKey: @"Subversion"]];
+	[taskVC setArguments: [NSArray arrayWithObjects: @"cat", vcFile, nil]];
+      }
+    else if ([vcDir isEqualToString: @".git"])
+      {
+	[taskVC setLaunchPath: [vcExecPaths objectForKey: @"Git"]];
+	[taskVC setArguments:
+	  [NSArray arrayWithObjects: @"show",
+	    [@"HEAD:" stringByAppendingString: vcFile],
+	    nil]];
+      }
+    else if ([vcDir isEqualToString: @".hg"])
+      {
+	[taskVC setLaunchPath: [vcExecPaths objectForKey: @"Mercurial"]];
+	[taskVC setArguments: [NSArray arrayWithObjects: @"cat", vcFile, nil]];
+      }
+    else if ([vcDir isEqualToString: @"_darcs"])
+      {
+	[taskVC setLaunchPath: [vcExecPaths objectForKey: @"Darcs"]];
+	[taskVC setArguments:
+	  [NSArray arrayWithObjects: @"show", @"contents", vcFile, nil]];
+      }
+    else
+      {
+	NSLog(@"unsupported VC?");
+	RELEASE(taskVC);
+	return;
+      }
     
     if ([[NSFileManager defaultManager] createFileAtPath: filename2
 					contents: nil
 					attributes: nil] == NO)
       {
 	NSLog(@"aye 1");
-	RELEASE(taskCVS);
+	RELEASE(taskVC);
 	return;
       }
 
@@ -118,14 +238,14 @@
     if (fh == nil)
       {
 	NSLog(@"aye 2");
-	RELEASE(taskCVS);
+	RELEASE(taskVC);
 	return;
       }
-    [taskCVS setStandardOutput: fh];
+    [taskVC setStandardOutput: fh];
 	           
-    [taskCVS launch];
-    [taskCVS waitUntilExit];
-    RELEASE(taskCVS);
+    [taskVC launch];
+    [taskVC waitUntilExit];
+    RELEASE(taskVC);
 
     [fh closeFile];
 
@@ -134,7 +254,7 @@
 	   traverseLink: NO] objectForKey: NSFileSize] intValue]
 	== 0)
       {
-	NSLog(@"file does not exist on CVS repository");
+	NSLog(@"file does not exist on VC repository");
 	return;
       }
 
@@ -150,9 +270,11 @@
 
 - (IBAction)showPrefPanel: (id)sender
 {
+  NSString *str;
+
   [prefPanel makeKeyAndOrderFront:self];
-  
-  [cvsPathField setStringValue:cvsExecPath];
+  str = [vcExecPaths objectForKey: [vcPopUp titleOfSelectedItem]];
+  [vcPathField setStringValue: str];
 }
 
 - (IBAction)prefApply: (id)sender
@@ -162,25 +284,34 @@
   
   defaults = [NSUserDefaults standardUserDefaults];
   
-  str = [cvsPathField stringValue];
+  str = [vcPathField stringValue];
 
-  if ((str != nil) && ([str length] > 0) && [[NSFileManager defaultManager] fileExistsAtPath:str])
+  if ((str != nil) && ([str length] > 0)
+    && [[NSFileManager defaultManager] fileExistsAtPath:str])
     {
-      cvsExecPath = str;
-      [defaults setObject:cvsExecPath forKey:@"CvsExecutablePath"];
+      [vcExecPaths setObject: str forKey: [vcPopUp titleOfSelectedItem]];
+      [defaults setObject: vcExecPaths forKey: @"VcExecutablePaths"];
     }
   else
     {
-      NSRunAlertPanel(@"CVS Tool not found!",
-	          	   @"File %@ is invalid!",
-      		        @"OK", nil, nil, str);
+      NSRunAlertPanel(@"VC Tool not found!",
+		      @"File %@ is invalid!",
+		      @"OK", nil, nil, str);
     }
     
   [prefPanel performClose:nil];
   [defaults synchronize];
 }
 
-- (IBAction)prefChooseCvsExec: (id)sender
+- (IBAction)prefChooseVC: (id)sender
+{
+  NSString *str;
+  
+  str = [vcExecPaths objectForKey: [vcPopUp titleOfSelectedItem]];
+  [vcPathField setStringValue:str];
+ }
+
+- (IBAction)prefChooseVCExec: (id)sender
 {
   NSString    *file;
   NSOpenPanel *openPanel;
@@ -193,7 +324,7 @@
   if ([openPanel runModal] == NSOKButton) 
     {
       file = [[openPanel filenames] objectAtIndex:0];
-      [cvsPathField setStringValue:file];
+      [vcPathField setStringValue:file];
     }
 }
 

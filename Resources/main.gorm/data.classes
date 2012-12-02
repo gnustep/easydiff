@@ -2,16 +2,18 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     AppController = {
 	Actions = (
-	    "compareFileToCVS:",
+	    "compareFileToVC:",
 	    "showPrefPanel:",
 	    "prefApply:",
 	    "prefCancel:",
-	    "prefChooseCvsExec:"
+	    "prefChooseVCExec:",
+	    "prefChooseVC:"
 	);
 	Outlets = (
 	    diffFileChooser,
 	    prefPanel,
-	    cvsPathField
+	    vcPathField,
+	    vcPopUp
 	);
 	Super = NSObject;
     };
@@ -44,11 +46,12 @@
 	Actions = (
 	    "chooseFile:",
 	    "compare:",
-	    "compareFileToCVS:",
+	    "compareFileToVC:",
 	    "compareFiles:",
 	    "prefApply:",
 	    "prefCancel:",
-	    "prefChooseCvsExec:",
+	    "prefChooseVC:",
+	    "prefChooseVCExec:",
 	    "saveMergedFile:",
 	    "savePatchFromLeft:",
 	    "savePatchFromRight:",

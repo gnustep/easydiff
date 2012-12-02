@@ -28,20 +28,22 @@
 
 @interface AppController : NSObject
 {
-  NSString *cvsExecPath;
+  NSMutableDictionary *vcExecPaths;
 
   IBOutlet DiffFileChooser *diffFileChooser;
   
   IBOutlet NSPanel *prefPanel;
-  IBOutlet NSTextField *cvsPathField;
+  IBOutlet NSPopUpButton *vcPopUp;
+  IBOutlet NSTextField *vcPathField;
 }
 
-- (IBAction)compareFileToCVS: (id)sender;
+- (IBAction)compareFileToVC: (id)sender;
 
 - (IBAction)showPrefPanel: (id)sender;
 - (IBAction)prefApply: (id)sender;
 - (IBAction)prefCancel: (id)sender;
-- (IBAction)prefChooseCvsExec: (id)sender;
+- (IBAction)prefChooseVC: (id)sender;
+- (IBAction)prefChooseVCExec: (id)sender;
 
 @end
 

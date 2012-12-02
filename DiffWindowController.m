@@ -61,7 +61,7 @@
 - (id) initWithFilename: (NSString *) filename1
 	andTempFilename: (NSString *) filename2
 {
-  /* Switch filenames so the CVS version is on the left */
+  /* Switch filenames so the VC version is on the left */
   [self _initWithFilename: filename2
 	andFilename: filename1];
   if (self)
@@ -71,7 +71,7 @@
       [[self window] setTitle:
 		       [NSString 
 			 stringWithFormat: 
-			   @"Comparing %@ to the CVS version",
+			   @"Comparing %@ to the VC version",
 			 [filename1 lastPathComponent]]];
 		   
       [[self window] makeKeyAndOrderFront: self];
