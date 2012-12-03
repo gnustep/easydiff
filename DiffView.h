@@ -39,7 +39,7 @@
   NSMutableArray *leftScrollingPoint;
   NSMutableArray *rightScrollingPoint;
   NSMutableArray *mergedScrollingPoint;
-  DiffScroller *scroller;
+  IBOutlet DiffScroller *scroller;
   float *lSP;
   float *rSP;
   float *mSP;
