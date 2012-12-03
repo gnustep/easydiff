@@ -26,6 +26,10 @@
 #import "DiffTextView.h"
 #include <math.h>
 
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
+#define NSUInteger unsigned int
+#endif
+
 @implementation DiffTextView
 
 - (id) initWithFrame: (NSRect) aRect
