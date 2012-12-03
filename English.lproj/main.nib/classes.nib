@@ -1,0 +1,52 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                compareFileToVC = id; 
+                prefApply = id; 
+                prefCancel = id; 
+                prefChooseVC = id; 
+                prefChooseVCExec = id; 
+                showPrefPanel = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                diffFileChooser = DiffFileChooser; 
+                prefPanel = NSPanel; 
+                vcPathField = NSTextField; 
+                vcPopUp = NSPopUpButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {chooseFile = id; compare = id; showWindow = id; }; 
+            CLASS = DiffFileChooser; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                compareButton = NSButton; 
+                leftButton = NSButton; 
+                leftIcon = FileIconView; 
+                leftPath = NSTextField; 
+                rightButton = NSButton; 
+                rightIcon = FileIconView; 
+                rightPath = NSTextField; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FileIconView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
+        {
+            ACTIONS = {
+                myAction = id; 
+                saveMergedFile = id; 
+                savePatchFromLeft = id; 
+                savePatchFromRight = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
