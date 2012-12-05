@@ -2,6 +2,7 @@
  * DiffMiddleView.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ * Copyright (c) 2002-2012, GNUstep Project
  *
  * This file is part of EasyDiff.app.
  *
@@ -26,9 +27,9 @@
 @implementation DiffMiddleView
 - (void) dealloc
 {
-  RELEASE(leftChanges);
-  RELEASE(rightChanges);
-  RELEASE(matrixArray);
+  [leftChanges release];
+  [rightChanges release];
+  [matrixArray release];
   [super dealloc];
 }
 
@@ -54,12 +55,12 @@
 	andRightChanges: (NSArray *) rightArray
 {
   if (leftChanges)
-    RELEASE(leftChanges);
-  leftChanges = RETAIN(leftArray);
+    [leftChanges release];
+  leftChanges = [leftArray retain];
 
   if (rightChanges)
-    RELEASE(rightChanges);
-  rightChanges = RETAIN(rightArray);
+    [rightChanges release];
+  rightChanges = [rightArray retain];
 
   if ([rightChanges count] != [leftChanges count])
     NSLog(@"[rightChanges count] != [leftChanges count]");
@@ -106,7 +107,7 @@
 
 	[matrixArray addObject: matrix];
 	[self addSubview: matrix];
-	RELEASE(matrix);
+	[matrix release];
       }
     
   }
