@@ -35,14 +35,14 @@ void tasktest(NSString *file1, NSString *file2,
   self = [super init];
   if (self)
     {
-      filename1 = RETAIN(file1);
-      filename2 = RETAIN(file2);
+      filename1 = [file1 retain];
+      filename2 = [file2 retain];
 
       leftChanges = nil;
       rightChanges = nil;
 
-      leftString = RETAIN([NSString stringWithContentsOfFile: file1]);
-      rightString = RETAIN([NSString stringWithContentsOfFile: file2]);
+      leftString = [[NSString stringWithContentsOfFile: file1] retain];
+      rightString = [[NSString stringWithContentsOfFile: file2] retain];
 
       {
 	NSUInteger length = [leftString length];
@@ -88,14 +88,14 @@ void tasktest(NSString *file1, NSString *file2,
 
 - (void) dealloc
 {
-  TEST_RELEASE(filename1);
-  TEST_RELEASE(filename2);
-  TEST_RELEASE(leftString);
-  TEST_RELEASE(rightString);
-  TEST_RELEASE(leftChanges);
-  TEST_RELEASE(rightChanges);
-  TEST_RELEASE(leftLineRangesArray);
-  TEST_RELEASE(rightLineRangesArray);
+  [filename1 release];
+  [filename2 release];
+  [leftString release];
+  [rightString release];
+  [leftChanges release];
+  [rightChanges release];
+  [leftLineRangesArray release];
+  [rightLineRangesArray release];
   [super dealloc];
 }
 
@@ -111,9 +111,8 @@ void tasktest(NSString *file1, NSString *file2,
 
 - (void) compare
 {
-  
-  RELEASE(rightChanges);
-  RELEASE(leftChanges);
+  [rightChanges release];
+  [leftChanges release];
 
   tasktest(filename1, filename2, &leftChanges, &rightChanges);
 }
@@ -275,9 +274,9 @@ void tasktest(NSString *file1, NSString *file2,
   *r1 = leftChanges;
   *r2 = rightChanges;
 
-  RELEASE(taskDiff);
-  RELEASE(taskGrep);
-  RELEASE(pipe1);
-  RELEASE(pipe2);
+  [taskDiff release];
+  [taskGrep release];
+  [pipe1 release];
+  [pipe2 release];
 }
 
