@@ -54,9 +54,9 @@
 
 - (void) dealloc
 {
-  RELEASE(lineRangesArray);
-  RELEASE(changes);
-  RELEASE(colors);
+  [lineRangesArray release];
+  [changes release];
+  [colors release];
   [super dealloc];
 }
 
@@ -64,9 +64,15 @@
 {
   int i;
   int count;
-  ASSIGN(changes, anArray);
+
+  if (changes != anArray)
+    {
+      [changes release];
+      changes = anArray;
+      [anArray retain];
+    }
   
-  RELEASE(colors);
+  [colors release];
 
   count = [changes count] / 2;
 
@@ -319,8 +325,12 @@
 
 - (void) setLineRanges: (NSArray *) lineRanges
 {
-  ASSIGN(lineRangesArray, lineRanges);
-
+  if (lineRangesArray != lineRanges)
+    {
+      [lineRangesArray release];
+      lineRangesArray = lineRanges;
+      [lineRangesArray retain];
+    }
   //  NSLog(@"lineRanges count %d", [lineRanges count]);
   
 }
