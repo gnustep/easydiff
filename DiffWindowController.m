@@ -2,6 +2,7 @@
  * DiffWindowController.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ * Copyright (c) 2002-2012, GNUstep Project
  *
  * This file is part of EasyDiff.app.
  *
@@ -78,7 +79,7 @@
       [[self window] makeKeyAndOrderFront: self];
 
       leftFileName = nil;
-      rightFileName = RETAIN(filename1);
+      rightFileName = [filename1 retain];
     }
   return self;
 }
@@ -104,8 +105,8 @@
       [[self window] makeKeyAndOrderFront: self];
 
 
-      leftFileName = RETAIN(filename1);
-      rightFileName = RETAIN(filename2);
+      leftFileName = [filename1 retain];
+      rightFileName = [filename2 retain];
 
       NSDebugLog(@"windowsMenu %@", [NSApp windowsMenu]);
     }
@@ -137,8 +138,8 @@
       rightChanges = [diffWrapper rightChanges];
       //  tasktest(filename1, filename2, &leftChanges, &rightChanges);
 
-      RETAIN(leftChanges);
-      RETAIN(rightChanges);
+      [leftChanges retain];
+      [rightChanges retain];
 
       {
 	NSString *string1;
@@ -206,7 +207,7 @@
 {
   NSDebugLog(@"windowWillClose called");
   //  RELEASE([self window]);
-  AUTORELEASE(self);
+  [self autorelease];
 }
 
 - (void) dealloc
@@ -223,11 +224,11 @@
 	    handler: nil] == NO)
 	NSLog(@"We could not delete %@", tempFilename);
     }
-  RELEASE(leftChanges);
-  RELEASE(rightChanges);
-  RELEASE(leftFileName);
-  RELEASE(rightFileName);
-  RELEASE(diffWrapper);
+  [leftChanges release];
+  [rightChanges release];
+  [leftFileName release];
+  [rightFileName release];
+  [diffWrapper release];
   free(choices);
   [super dealloc];
 }
@@ -555,7 +556,7 @@
 	    [patchArray addObject: p];
 	  
 	}
-      RELEASE(p);
+      [p release];
     }
 
   
@@ -597,7 +598,7 @@
 	    }
 
 	  // new chunk
-	  RELEASE(pp);
+	  [pp release];
 
 	  j = p->start - 3;
 	  if ( j < 0)
@@ -666,7 +667,7 @@
       
       [finalArray addObject: pp];
     }
-  RELEASE(pp);
+  [pp release];
 
 
   {

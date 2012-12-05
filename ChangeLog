@@ -1,6 +1,7 @@
 2012-12-05 Riccardo Mottola <rm@gnu.org>
 
 	* DiffWrapper.m
+	* DiffWindowController.m
 	Replace GS memory macros with standard code.
 
 2012-12-02  Wolfgang Lux  <wolfgang.lux@gmail.com>
