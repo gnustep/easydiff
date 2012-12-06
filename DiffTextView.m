@@ -228,7 +228,7 @@
 	      NSMinY(blockRectsArray[blockRectsArrayFirstFree - 1]);
 
 	    NSDebugLog(@"a %d %f", i + 1, separationPosition[i + 1]);
-	    NSDebugLog(@"a %d %f", i + 2, separationPosition[i + 2]);
+	    NSLog(@"a %d %f", i + 2, separationPosition[i + 2]);
 
 	    separationDiff[i] = separationPosition[i+1] -
 	      separationPosition[i];
@@ -256,8 +256,8 @@
 	      NSMaxY(blockRectsArray[blockRectsArrayFirstFree - 1]);
 
 
-	    NSDebugLog(@"b %d %f", i + 1, separationPosition[i + 1]);
-	    NSDebugLog(@"b %d %f", i + 2, separationPosition[i + 2]);
+	    NSLog(@"b %d %f", i + 1, separationPosition[i + 1]);
+	    NSLog(@"b %d %f", i + 2, separationPosition[i + 2]);
 
 	    separationDiff[i] = separationPosition[i+1] -
 	      separationPosition[i];

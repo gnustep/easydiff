@@ -359,7 +359,7 @@
   position = [sender floatValue] * 
     (mergeFileHeight - visibleHeight) + visibleHeight / 2.;
 
-  NSDebugLog(@"position %f", position);
+  NSLog(@"position %f", position);
 
   for ( i = 0; i < length; i ++)
     {

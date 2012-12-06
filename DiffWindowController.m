@@ -108,7 +108,7 @@
       leftFileName = [filename1 retain];
       rightFileName = [filename2 retain];
 
-      NSDebugLog(@"windowsMenu %@", [NSApp windowsMenu]);
+      NSLog(@"windowsMenu %@", [NSApp windowsMenu]);
     }
   return self;
 }
@@ -124,7 +124,7 @@
       [self window];
 
 
-      NSDebugLog(@"%@", scroller);
+      NSLog(@"%@", scroller);
       [scroller setArrowsPosition: NSScrollerArrowsMaxEnd];
       [scroller setFloatValue:0.5 knobProportion:0.2];
       [scroller setEnabled: YES];
@@ -205,14 +205,14 @@
 
 - (void) windowWillClose: (id) sender
 {
-  NSDebugLog(@"windowWillClose called");
+  NSLog(@"windowWillClose called");
   //  RELEASE([self window]);
   [self autorelease];
 }
 
 - (void) dealloc
 {
-  NSDebugLog(@"dealloc called");
+  NSLog(@"dealloc called");
   [[NSNotificationCenter defaultCenter]
     removeObserver: self
     name: NSViewFrameDidChangeNotification
@@ -238,7 +238,7 @@
 {
   int oldChoice = choices[[sender tag]];
 
-  NSDebugLog(@"matrixButtonClicked %d, %d", [sender tag],
+  NSLog(@"matrixButtonClicked %d, %d", [sender tag],
 	     [sender selectedColumn]);
 
  
