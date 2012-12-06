@@ -138,9 +138,9 @@
       [self addSubview: rightView];
       [self addSubview: leftView];
 
-      RELEASE(middleView);
-      RELEASE(rightView);
-      RELEASE(leftView);
+      [middleView release];
+      [rightView release];
+      [leftView release];
     }
   return self;
 }
