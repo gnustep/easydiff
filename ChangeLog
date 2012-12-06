@@ -3,6 +3,8 @@
 	* DiffWrapper.m
 	* DiffWindowController.m
 	* DiffMiddleView.m
+	* AppController.m
+	* DiffWrapper.m
 	Replace GS memory macros with standard code.
 
 2012-12-02  Wolfgang Lux  <wolfgang.lux@gmail.com>

@@ -184,7 +184,7 @@ void tasktest(NSString *file1, NSString *file2,
     result = [[NSString alloc] initWithData: data
 			       encoding: NSNonLossyASCIIStringEncoding];
     resultsArray = [result componentsSeparatedByString:@"\n"];
-    RELEASE(result);
+    [result release];
   }
 
   {

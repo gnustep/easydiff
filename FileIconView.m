@@ -30,7 +30,7 @@
 
 - (void)dealloc
 {
-  RELEASE(fileName);
+  [fileName release];
   [super dealloc];
 }
 
@@ -47,7 +47,13 @@
 
 - (void)setFileName: (NSString *)aFileName
 {
-  ASSIGNCOPY(fileName, aFileName);
+  if (fileName != aFileName)
+    {
+      [fileName release];
+      fileName = aFileName;
+      [fileName retain];
+    }
+
   if ([[NSFileManager defaultManager] fileExistsAtPath: fileName])
     {
       [self setImage: [[NSWorkspace sharedWorkspace] iconForFile: fileName]];

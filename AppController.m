@@ -220,7 +220,7 @@
     else
       {
 	NSLog(@"unsupported VC?");
-	RELEASE(taskVC);
+	[taskVC release];
 	return;
       }
     
@@ -228,8 +228,7 @@
 					contents: nil
 					attributes: nil] == NO)
       {
-	NSLog(@"aye 1");
-	RELEASE(taskVC);
+	[taskVC release];
 	return;
       }
 
@@ -237,15 +236,14 @@
 
     if (fh == nil)
       {
-	NSLog(@"aye 2");
-	RELEASE(taskVC);
+	[taskVC release];
 	return;
       }
     [taskVC setStandardOutput: fh];
 	           
     [taskVC launch];
     [taskVC waitUntilExit];
-    RELEASE(taskVC);
+    [taskVC release];
 
     [fh closeFile];
 
