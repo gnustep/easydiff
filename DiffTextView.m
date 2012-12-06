@@ -117,7 +117,7 @@
 
   count = [array count];
 
-  NSDebugLog(@"count %d", count);
+  NSLog(@"count %d", count);
   {
     NSString *internalString = [self string];
     int startLine;
@@ -227,7 +227,7 @@
 	    separationPosition[i + 2] = 
 	      NSMinY(blockRectsArray[blockRectsArrayFirstFree - 1]);
 
-	    NSDebugLog(@"a %d %f", i + 1, separationPosition[i + 1]);
+	    NSLog(@"a %d %f", i + 1, separationPosition[i + 1]);
 	    NSLog(@"a %d %f", i + 2, separationPosition[i + 2]);
 
 	    separationDiff[i] = separationPosition[i+1] -
