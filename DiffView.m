@@ -95,13 +95,13 @@
 
       {
 	[leftView setDocumentView: leftTextView];
-	RELEASE(leftTextView);
+	[leftTextView release];
 	[[leftView contentView] setPostsBoundsChangedNotifications: YES];
 	[[leftView contentView] setPostsFrameChangedNotifications: YES];
       }
       {
 	[rightView setDocumentView: rightTextView];
-	RELEASE(rightTextView);
+	[rightTextView release];
 	[[rightView contentView] setPostsBoundsChangedNotifications: YES];
 	[[rightView contentView] setPostsFrameChangedNotifications: YES];
       }
