@@ -23,6 +23,8 @@
  */
 
 
+#import <Foundation/Foundation.h>
+
 #import "DiffTextView.h"
 #include <math.h>
 
@@ -463,10 +465,10 @@
   NSSize size;
   float superWidth, selfWidth;
 
-  superWidth = [self convertRect: [_super_view bounds]
-	       fromView: _super_view].size.width;
-  selfWidth = [_layoutManager 
-		usedRectForTextContainer: _textContainer].size.width;
+  superWidth = [self convertRect: [[self superview] bounds]
+	       fromView: [self superview]].size.width;
+  selfWidth = [[self layoutManager] 
+		usedRectForTextContainer: [self textContainer]].size.width;
 
   if (superWidth > selfWidth)
     size.width = superWidth;

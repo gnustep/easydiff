@@ -29,6 +29,10 @@
 #import "DiffWindowController.h"
 #import "FileIconView.h"
 
+#if !defined (GNUSTEP) &&  (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
+#define sel_isEqual(s1,s2) ((s1)==(s2))
+#endif
+
 @implementation DiffFileChooser
 
 - (void)awakeFromNib
