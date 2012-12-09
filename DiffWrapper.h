@@ -2,6 +2,7 @@
  * DiffWrapper.h
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ *               2012 The GNUstep project
  *
  * This file is part of EasyDiff.app.
  *
@@ -21,13 +22,12 @@
  *
  */
 
-#ifndef __DIFFWRAPPER_H
-#define __DIFFWRAPPER_H
-
-#include <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 
 @interface DiffWrapper : NSObject
 {
+  NSString *diffExecPath;
+  NSString *grepExecPath;
   NSString *filename1;
   NSString *filename2;
   NSMutableArray *rightChanges;
@@ -53,7 +53,8 @@
 
 - (NSArray *) leftLineRanges;
 - (NSArray *) rightLineRanges;
-@end
 
-#endif
+- (void) tasktest: (NSString *)file1 :(NSString *)file2  :(NSMutableArray **)r1 :(NSMutableArray **)r2;
+
+@end
 

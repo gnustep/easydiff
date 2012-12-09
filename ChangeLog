@@ -1,3 +1,9 @@
+2012-12-10 Riccardo Mottola <rm@gnu.org>
+
+	* DiffWrapper.h
+	* DiffWrapper.m
+        Transform tasktest into a method and use variables for binary paths.
+
 2012-12-05 Riccardo Mottola <rm@gnu.org>
 
 	* DiffWrapper.m

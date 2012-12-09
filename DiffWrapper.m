@@ -2,6 +2,7 @@
  * DiffWrapper.m
  *
  * Copyright (c) 2002 Pierre-Yves Rivaille <pyrivail@ens-lyon.fr>
+ *               2012 The GNUstep project
  *
  * This file is part of EasyDiff.app.
  *
@@ -24,8 +25,9 @@
 
 #import "DiffWrapper.h"
 
-void tasktest(NSString *file1, NSString *file2,
-	      NSMutableArray **r1, NSMutableArray **r2);
+#if defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED <= MAC_OS_X_VERSION_10_4)
+#define NSUInteger unsigned int
+#endif
 
 
 @implementation DiffWrapper
@@ -38,6 +40,14 @@ void tasktest(NSString *file1, NSString *file2,
       filename1 = [file1 retain];
       filename2 = [file2 retain];
 
+#if defined(__APPLE__)
+      diffExecPath = @"/usr/bin/diff";
+      grepExecPath = @"/usr/bin/grep";
+#else
+      diffExecPath = @"diff";
+      grepExecPath = @"grep";
+#endif
+      
       leftChanges = nil;
       rightChanges = nil;
 
@@ -114,7 +124,7 @@ void tasktest(NSString *file1, NSString *file2,
   [rightChanges release];
   [leftChanges release];
 
-  tasktest(filename1, filename2, &leftChanges, &rightChanges);
+  [self tasktest :filename1 :filename2 :&leftChanges :&rightChanges];
 }
 
 - (void) alternateCompare
@@ -142,10 +152,9 @@ void tasktest(NSString *file1, NSString *file2,
 {
   return rightString;
 }
-@end
 
-void tasktest(NSString *file1, NSString *file2,
-	      NSMutableArray **r1, NSMutableArray **r2)
+
+- (void) tasktest: (NSString *)file1 :(NSString *)file2  :(NSMutableArray **)r1 :(NSMutableArray **)r2
 {
   NSTask *taskDiff, *taskGrep;
   NSPipe *pipe1, *pipe2;
@@ -156,16 +165,14 @@ void tasktest(NSString *file1, NSString *file2,
 
   pipe1 = [[NSPipe alloc] init];
   taskDiff = [[NSTask alloc] init];
-  [taskDiff setLaunchPath: @"diff"];
-  [taskDiff setArguments: 
-	   [NSArray arrayWithObjects: file1, file2, nil]];
+  [taskDiff setLaunchPath: diffExecPath];
+  [taskDiff setArguments: [NSArray arrayWithObjects: file1, file2, nil]];
   [taskDiff setStandardOutput: pipe1];
 
   pipe2 = [[NSPipe alloc] init];
   taskGrep = [[NSTask alloc] init];
-  [taskGrep setLaunchPath: @"grep"];
-  [taskGrep setArguments: 
-	   [NSArray arrayWithObjects: @"^[^<>-]", nil]];
+  [taskGrep setLaunchPath: grepExecPath];
+  [taskGrep setArguments: [NSArray arrayWithObjects: @"^[^<>-]", nil]];
   [taskGrep setStandardInput: pipe1];
   [taskGrep setStandardOutput: pipe2];
   
@@ -280,3 +287,4 @@ void tasktest(NSString *file1, NSString *file2,
   [pipe2 release];
 }
 
+@end
