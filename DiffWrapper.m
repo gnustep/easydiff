@@ -124,7 +124,7 @@
   [rightChanges release];
   [leftChanges release];
 
-  [self tasktest :filename1 :filename2 :&leftChanges :&rightChanges];
+  [self tasktest :filename1 :filename2];
 }
 
 - (void) alternateCompare
@@ -154,13 +154,12 @@
 }
 
 
-- (void) tasktest: (NSString *)file1 :(NSString *)file2  :(NSMutableArray **)r1 :(NSMutableArray **)r2
+- (void) tasktest: (NSString *)file1 :(NSString *)file2
 {
   NSTask *taskDiff, *taskGrep;
   NSPipe *pipe1, *pipe2;
   NSData *data;
   NSArray *resultsArray;
-  NSMutableArray *leftChanges, *rightChanges;
   NSFileHandle *fileHandle;
 
   pipe1 = [[NSPipe alloc] init];
@@ -275,11 +274,7 @@
 	[rightChanges addObject: [NSNumber numberWithInt: r2b-1]];
       }
   }
-  //  NSLog(@"%@", [leftChanges description]);
-  //  NSLog(@"%@", [rightChanges description]);
 
-  *r1 = leftChanges;
-  *r2 = rightChanges;
 
   [taskDiff release];
   [taskGrep release];

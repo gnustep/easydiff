@@ -54,7 +54,7 @@
 - (NSArray *) leftLineRanges;
 - (NSArray *) rightLineRanges;
 
-- (void) tasktest: (NSString *)file1 :(NSString *)file2  :(NSMutableArray **)r1 :(NSMutableArray **)r2;
+- (void) tasktest: (NSString *)file1 :(NSString *)file2;
 
 @end
 
